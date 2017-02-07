@@ -14,7 +14,6 @@ namespace TSPSolver.Views
       {
          InitializeComponent();
          BindingContext = _viewModel = new MainViewModel(this);
-         btnAddButton.WidthRequest = btnAddButton.HeightRequest;
          AddressListView.ItemsSource = _viewModel.AddressList;
       }
    }

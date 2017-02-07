@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TSPSolver"
-             x:Class="TSPSolver.Views.MainView"
-             BackgroundColor="{x:Static local:Constants.Darken}">
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             x:Class="TSPSolver.Views.MainView">
     <ContentPage.Resources>
         <ResourceDictionary>
           <Style x:Key="AddressLabelStyle" TargetType="Label">
@@ -11,8 +12,15 @@
               <Setter Property="TextColor" Value="{x:Static local:Constants.LightBlue}" />
           </Style>
           <Style x:Key="AddressEntyStyle" TargetType="Entry">
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="TextColor" Value="{x:Static local:Constants.DarkBlue}" />
+              <Setter Property="FontSize" Value="20" />
+              <Setter Property="TextColor" Value="{x:Static local:Constants.Blue}" />
+          </Style>
+          <Style x:Key="ButtonStyle" TargetType="Button">
+            <Setter Property="BackgroundColor" Value="{x:Static local:Constants.Blue}" />
+            <Setter Property="BorderColor" Value="{x:Static local:Constants.Blue}" />
+            <Setter Property="FontSize" Value="Medium" />
+            <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            <Setter Property="TextColor" Value="{x:Static local:Constants.LightBlue}" />
           </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -21,7 +29,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="2*" />
@@ -29,16 +39,16 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Entry Grid.Row="0" Grid.Column="0" 
+        <Entry Grid.Row="0" Grid.Column="0"
                Placeholder="Enter street name ..."
                Style="{StaticResource AddressEntyStyle}"
                Text="{Binding Street, Mode=TwoWay}" />
-        <Entry Grid.Row="0" Grid.Column="1" 
+        <Entry Grid.Row="0" Grid.Column="1"
                Placeholder="Enter number ..."
                Style="{StaticResource AddressEntyStyle}"
                HorizontalOptions="FillAndExpand"
                Text="{Binding Number, Mode=TwoWay}" />
-        <Entry Grid.Row="1" Grid.Column="0" 
+        <Entry Grid.Row="1" Grid.Column="0"
                Placeholder="Enter city name ..."
                Style="{StaticResource AddressEntyStyle}"
                HorizontalOptions="FillAndExpand"
@@ -47,22 +57,20 @@
                Placeholder="Enter ZIP ..."
                Style="{StaticResource AddressEntyStyle}"
                Text="{Binding Zip, Mode=TwoWay}" />
-        <Button x:Name="btnAddButton" 
-                Grid.Row="0" Grid.Column="2" Grid.RowSpan="2"
-                Image="Add_Green_85.png"
-                HorizontalOptions="End" VerticalOptions="FillAndExpand"
-                WidthRequest="85" HeightRequest="85"
-                BorderColor="{x:Static local:Constants.Green}"
+
+        <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                Text="Add address"
+                Style="{StaticResource ButtonStyle}"
                 Command="{Binding AddAddressToListCommand}" />
 
-        <ListView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"
+        <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                   x:Name="AddressListView"
-                  HasUnevenRows="True" >
+                  HasUnevenRows="True">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout BackgroundColor="{x:Static local:Constants.DarkBlue}"
-                                     Padding="8"
+                        <StackLayout BackgroundColor="{x:Static local:Constants.Blue}"
+                                     Padding="16"
                                      Margin="2">
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="{Binding Street, StringFormat='{0}, '}"
@@ -81,5 +89,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
+                Text="Calculate shortest route ..."
+                Style="{StaticResource ButtonStyle}" />
     </Grid>
 </ContentPage>
