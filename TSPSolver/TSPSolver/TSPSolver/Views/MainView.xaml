@@ -69,21 +69,28 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout BackgroundColor="{x:Static local:Constants.Blue}"
-                                     Padding="16"
-                                     Margin="2">
+                        <StackLayout BackgroundColor="#555555"
+                                     Padding="16" Margin="2"
+                                     Orientation="Horizontal">
+                          <Image Source="Location_LightBlue_128.png"
+                                 Aspect="Fill"
+                                 HeightRequest="90" WidthRequest="90"
+                                 VerticalOptions="Center"
+                                 Margin="0, 0, 16, 0"/>
+                          <StackLayout >
                             <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding Street, StringFormat='{0}, '}"
-                                       Style="{StaticResource AddressLabelStyle}" />
-                                <Label Text="{Binding Number}"
-                                       Style="{StaticResource AddressLabelStyle}" />
+                              <Label Text="{Binding Street, StringFormat='{0}, '}"
+                                     Style="{StaticResource AddressLabelStyle}" />
+                              <Label Text="{Binding Number}"
+                                     Style="{StaticResource AddressLabelStyle}" />
                             </StackLayout>
                             <StackLayout Orientation="Horizontal">
-                                <Label Text="{Binding Zip, StringFormat='{0}, '}"
-                                       Style="{StaticResource AddressLabelStyle}" />
-                                <Label Text="{Binding City}"
-                                       Style="{StaticResource AddressLabelStyle}" />
+                              <Label Text="{Binding Zip, StringFormat='{0}, '}"
+                                     Style="{StaticResource AddressLabelStyle}" />
+                              <Label Text="{Binding City}"
+                                     Style="{StaticResource AddressLabelStyle}" />
                             </StackLayout>
+                          </StackLayout>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
@@ -91,6 +98,7 @@
         </ListView>
         <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
                 Text="Calculate shortest route ..."
-                Style="{StaticResource ButtonStyle}" />
+                Style="{StaticResource ButtonStyle}" 
+                Command="{Binding CalculateBestRouteCommand}"/>
     </Grid>
 </ContentPage>
