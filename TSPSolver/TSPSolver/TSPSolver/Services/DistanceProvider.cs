@@ -13,7 +13,7 @@ namespace TSPSolver.Services
 {
    public class DistanceProvider
    {
-      private HttpClient _client = new HttpClient();
+      private readonly HttpClient _client = new HttpClient();
 
       private AdjacencyMatrix _adjacencyMatrix;
 
@@ -49,7 +49,7 @@ namespace TSPSolver.Services
          }
          stringBuilder.Append("&language=de-DE&key=AIzaSyBQwOackntfrhkKycA-iq5TOeES3ykOkek");
 
-         Uri uri = new Uri(stringBuilder.ToString());
+         var uri = new Uri(stringBuilder.ToString());
 
          try
          {
