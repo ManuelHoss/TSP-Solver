@@ -23,31 +23,23 @@ namespace TSPSolver.Services
          
          StringBuilder stringBuilder = new StringBuilder();
          stringBuilder.Append("https://maps.googleapis.com/maps/api/distancematrix/json?");
+
          stringBuilder.Append("origins=");
-         int i = 1;
+         // Add all addresses seperated by "|" as origin
          foreach (var address in addresses)
          {
             stringBuilder.Append($"{address.Street}+{address.Number}+{address.City}+{address.City}|");
-            if (i == addresses.Count)
-            {
-               // Remove last "|"
-               stringBuilder.Remove(stringBuilder.Length - 1, 1);
-            }
-            i++;
          }
+         stringBuilder.Remove(stringBuilder.Length - 1, 1);
          stringBuilder.Append("&destinations=");
-         i = 1;
+         // Add all addresses seperated by "|" as destination
          foreach (var address in addresses)
          {
             stringBuilder.Append($"{address.Street}+{address.Number}+{address.City}+{address.City}|");
-            if (i == addresses.Count)
-            {
-               // Remove last "|"
-               stringBuilder.Remove(stringBuilder.Length - 1, 1);
-            }
-            i++;
          }
-         stringBuilder.Append("&language=de-DE&key=AIzaSyBQwOackntfrhkKycA-iq5TOeES3ykOkek");
+         stringBuilder.Remove(stringBuilder.Length - 1, 1);
+
+         stringBuilder.Append($"&language=de-DE&key={Constants.GoogleDistanceMatrixApiKey}");
 
          var uri = new Uri(stringBuilder.ToString());
 
@@ -65,17 +57,5 @@ namespace TSPSolver.Services
 
          return _adjacencyMatrix;
       }
-
-      async Task<String> AccessTheWebAsync(String url)
-      {
-         HttpClient client = new HttpClient();
-         
-         Task<string> getStringTask = client.GetStringAsync(url);
-         
-         string urlContents = await getStringTask;
-         
-         return urlContents;
-      }
-
    }
 }
