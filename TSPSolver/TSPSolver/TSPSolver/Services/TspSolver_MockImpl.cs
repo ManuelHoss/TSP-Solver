@@ -8,9 +8,9 @@ using TSPSolver.Model;
 
 namespace TSPSolver.Services
 {
-   public class TspSolver_BruteForceImpl : ITspSolver
+   public class TspSolver_MockImpl : ITspSolver
    {
-      public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix)
+      public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix, List<Address> addresses)
       {
          // Mock route
          List<Address> mockAddresses = new List<Address>();

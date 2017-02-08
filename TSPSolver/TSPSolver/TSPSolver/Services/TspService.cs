@@ -20,10 +20,10 @@ namespace TSPSolver.Services
 
       public Route CalculateBestRoute(List<Address> addresses)
       {
-         ITspSolver tspSolver = new TspSolver_BruteForceImpl();
+         ITspSolver tspSolver = new TspSolver_MockImpl();
          AdjacencyMatrix adjacencyMatrix = GetDistancesFromGoogleApi(addresses);
          Dictionary<Address, Dictionary<Address, double>> distanceMatrix = ParseAdjacencyMatrixToDistanceMatrix(adjacencyMatrix, addresses);
-         return tspSolver.CalculateShortestRoute(distanceMatrix);
+         return tspSolver.CalculateShortestRoute(distanceMatrix, addresses);
       }
 
       private AdjacencyMatrix GetDistancesFromGoogleApi(List<Address> addresses)

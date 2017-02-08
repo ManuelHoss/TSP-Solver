@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using TSPSolver.Interfaces;
 using TSPSolver.Model;
 using TSPSolver.ViewModels;
 using Xamarin.Forms;
@@ -32,7 +33,15 @@ namespace TSPSolver.Views
          stringBuilder.Append($"&key={Constants.GoogleMapsApiKey}");
 
          //MapsWebView.Source = "http://maps.google.com/maps?" + "saddr=43.0054446,-87.9678884" + "&daddr=42.9257104,-88.0508355";
-         MapsWebView.Source = stringBuilder.ToString();
+
+         string baseUrl = DependencyService.Get<IBaseUrl>().Get();
+
+         var html = new UrlWebViewSource
+         {
+            Url = System.IO.Path.Combine(baseUrl, "local.html")
+         };
+
+         MapsWebView.Source = html;
       }
    }
 }
