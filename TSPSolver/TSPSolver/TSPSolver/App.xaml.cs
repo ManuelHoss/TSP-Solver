@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using TSPSolver.Views;
 using Xamarin.Forms;
 
 namespace TSPSolver
@@ -13,7 +9,7 @@ namespace TSPSolver
       {
          InitializeComponent();
 
-         MainPage = new Views.MainView();
+         MainPage = new NavigationPage(new MainView());
       }
 
       protected override void OnStart()

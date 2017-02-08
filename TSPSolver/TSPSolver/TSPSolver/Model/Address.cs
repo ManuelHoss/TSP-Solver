@@ -12,5 +12,10 @@ namespace TSPSolver.Model
       public string Number { get; set; }
       public string Zip { get; set; }
       public string City { get; set; }
+
+      public override string ToString()
+      {
+         return $"{Street} {Number}, {Zip} {City}";
+      }
    }
 }

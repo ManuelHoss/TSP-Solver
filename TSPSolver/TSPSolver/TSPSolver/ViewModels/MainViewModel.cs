@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Input;
 using TSPSolver.Model;
 using TSPSolver.Services;
+using TSPSolver.Views;
 using Xamarin.Forms;
 
 namespace TSPSolver.ViewModels
@@ -114,7 +115,9 @@ namespace TSPSolver.ViewModels
                          //Case of editing a existent Entry
                          if (AddressList.Count > 1)
                          {
-                            tspService = new TspService(AddressList.ToList());
+                            tspService = new TspService();
+                            Route bestRoute = tspService.CalculateBestRoute(AddressList.ToList());
+                            Page.Navigation.PushAsync(new BestRouteDetailView(bestRoute));
                          }
                       }));
          }
