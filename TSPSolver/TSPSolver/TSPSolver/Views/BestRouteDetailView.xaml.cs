@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Newtonsoft.Json;
 using TSPSolver.Interfaces;
 using TSPSolver.Model;
 using TSPSolver.ViewModels;
@@ -14,6 +15,10 @@ namespace TSPSolver.Views
          InitializeComponent();
          BindingContext = _viewModel = new BestRouteDetailViewModel(this, bestRoute);
          CreateMap(bestRoute);
+         
+         
+         var json = JsonConvert.SerializeObject(bestRoute);
+         MapsWebView.Eval($"initMap({json})");
       } 
 
       private void CreateMap(Route bestRoute)
@@ -33,7 +38,7 @@ namespace TSPSolver.Views
          stringBuilder.Append($"&key={Constants.GoogleMapsApiKey}");
 
          //MapsWebView.Source = "http://maps.google.com/maps?" + "saddr=43.0054446,-87.9678884" + "&daddr=42.9257104,-88.0508355";
-
+         
          string baseUrl = DependencyService.Get<IBaseUrl>().Get();
 
          var html = new UrlWebViewSource

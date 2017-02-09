@@ -5,7 +5,7 @@ using TSPSolver.Model;
 
 namespace TSPSolver.Services
 {
-   public class TspSolver_DynamicProgrammingImpl : ITspSolver
+   public class TspSolverDynamicProgrammingImpl : ITspSolver
    {
       public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix, List<Address> addresses)
       {
