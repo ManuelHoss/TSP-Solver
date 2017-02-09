@@ -23,7 +23,7 @@ namespace TSPSolver.Services
          ITspSolver tspSolver = new TspSolver_MockImpl();
          AdjacencyMatrix adjacencyMatrix = GetDistancesFromGoogleApi(addresses);
          Dictionary<Address, Dictionary<Address, double>> distanceMatrix = ParseAdjacencyMatrixToDistanceMatrix(adjacencyMatrix, addresses);
-         return tspSolver.CalculateShortestRoute(distanceMatrix, addresses);
+         return tspSolver.CalculateShortestRoute(distanceMatrix, addresses, addresses[0]);
       }
 
       private AdjacencyMatrix GetDistancesFromGoogleApi(List<Address> addresses)
