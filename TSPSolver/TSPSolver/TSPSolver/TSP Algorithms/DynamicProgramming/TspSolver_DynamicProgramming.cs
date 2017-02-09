@@ -14,7 +14,7 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
       private List<Dote> allDotes;
       private Address depotAddress;
 
-        public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix, List<Address> addresses, Address depotAddress)
+        public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix, Dictionary<Address, Dictionary<Address, double>> durationMatrix, List<Address> addresses, Address depotAddress)
       {
          length = adresses.Count;
          this.depotAddress=depotAddress;
