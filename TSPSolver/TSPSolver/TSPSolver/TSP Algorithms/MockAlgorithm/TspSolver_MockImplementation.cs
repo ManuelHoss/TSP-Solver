@@ -7,7 +7,7 @@ namespace TSPSolver.TSP_Algorithms.MockAlgorithm
 {
    public class TspSolver_MockImplementation : ITspSolver
    {
-      public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix, List<Address> addresses)
+      public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix, List<Address> addresses, Address depotAddress)
       {
          throw new NotImplementedException();
       }

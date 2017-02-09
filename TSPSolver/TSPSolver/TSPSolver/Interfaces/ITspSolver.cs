@@ -5,6 +5,6 @@ namespace TSPSolver.Interfaces
 {
    public interface ITspSolver
    {
-      Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix, List<Address> addresses);
+      Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix, List<Address> addresses, Address depotAddress);
    }
 }
