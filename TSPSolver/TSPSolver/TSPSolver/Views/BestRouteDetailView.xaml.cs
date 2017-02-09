@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Reflection;
+using System.Text;
 using Newtonsoft.Json;
 using TSPSolver.Interfaces;
 using TSPSolver.Model;
@@ -40,6 +42,11 @@ namespace TSPSolver.Views
          //MapsWebView.Source = "http://maps.google.com/maps?" + "saddr=43.0054446,-87.9678884" + "&daddr=42.9257104,-88.0508355";
          
          string baseUrl = DependencyService.Get<IBaseUrl>().Get();
+
+         //var assembly = typeof(MapHtmlString).GetTypeInfo().Assembly;
+         //Stream stream = assembly.GetManifestResourceStream("local.html");
+         //StreamReader reader = new StreamReader(stream);
+         //string htmlString = reader.ReadToEnd();
 
          var html = new UrlWebViewSource
          {
