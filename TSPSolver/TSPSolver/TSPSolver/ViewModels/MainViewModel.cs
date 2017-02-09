@@ -24,11 +24,11 @@ namespace TSPSolver.ViewModels
       public MainViewModel(Page page) : base(page)
       {
          // Initialize Mock List
-         _addressList.Add(new Address() {Street = "Kapuzinergasse", Number = "20", Zip = "86150", City = "Augsburg"});
-         _addressList.Add(new Address() {Street = "Universitätsstraße", Number = "6a", Zip = "86159", City = "Augsburg"});
-         _addressList.Add(new Address() {Street = "Bürgermeister-Ulrich-Straße", Number = "90", Zip = "86199", City = "Augsburg"});
-         _addressList.Add(new Address() {Street = "Aubinger Str.", Number = "162", Zip = "81243", City = "München" });
-         _addressList.Add(new Address() {Street = "Sommestraße", Number = "40", Zip = "86156", City = "Augsburg" });
+         _addressList.Add(new Address() {Street = "Kapuzinergasse", Number = "20", Zip = "86150", City = "Augsburg", Id = Guid.NewGuid(), FormattedAddress = "Kapuzinergasse 20, 86150 Augsburg, Deutschland"});
+         _addressList.Add(new Address() {Street = "Universitätsstraße", Number = "6a", Zip = "86159", City = "Augsburg", Id = Guid.NewGuid(), FormattedAddress = "Universitätsstraße 6, 86159 Augsburg, Deutschland"});
+         _addressList.Add(new Address() {Street = "Bürgermeister-Ulrich-Straße", Number = "90", Zip = "86199", City = "Augsburg", Id = Guid.NewGuid(), FormattedAddress = "Bürgermeister-Ulrich-Straße 90, 86199 Augsburg, Deutschland"});
+         _addressList.Add(new Address() {Street = "Aubinger Str.", Number = "162", Zip = "81243", City = "München", Id = Guid.NewGuid(), FormattedAddress = "Aubinger Str. 162, 81243 München, Deutschland"});
+         _addressList.Add(new Address() {Street = "Sommestraße", Number = "40", Zip = "86156", City = "Augsburg", Id = Guid.NewGuid(), FormattedAddress = "Sommestraße 40, 86156 Augsburg, Deutschland"});
       }
 
       #endregion //Constructor
@@ -73,6 +73,7 @@ namespace TSPSolver.ViewModels
 
       // Add address to list
       private Command _addAddressToListCommand { get; set; }
+
       public ICommand AddAddressToListCommand
       {
          get
@@ -83,24 +84,31 @@ namespace TSPSolver.ViewModels
                       {
                          //Case of editing a existent Entry
                          if (!String.IsNullOrEmpty(_street)
-                         & !String.IsNullOrEmpty(_number)
-                         & !String.IsNullOrEmpty(_zip)
-                         & !String.IsNullOrEmpty(_city))
+                             & !String.IsNullOrEmpty(_number)
+                             & !String.IsNullOrEmpty(_zip)
+                             & !String.IsNullOrEmpty(_city))
                          {
-                            _addressList.Add(new Address()
-                            {
-                               Id = Guid.NewGuid(),
-                               Street = _street,
-                               Number = _number,
-                               Zip = _zip,
-                               City = _city
-                            });
+                            Address addressToAdd = new Address() {Street = _street, Number = _number, Zip = _zip, City = _city};
+                            GoogleMapsApiAddressResult validationResult = DistanceProvider.ValidateAddress(addressToAdd.ToString()).Result;
 
-                            // Cleanup for next entry
-                            Street = "";
-                            Number = "";
-                            Zip = "";
-                            City = "";
+                            if (validationResult.status == "OK")
+                            {
+                               addressToAdd.Street = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("route")).long_name;
+                               addressToAdd.Number = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("street_number")).long_name;
+                               addressToAdd.City = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("locality")).long_name;
+                               addressToAdd.Zip = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("postal_code")).long_name;
+                               addressToAdd.FormattedAddress = validationResult.results[0].formatted_address;
+                               _addressList.Add(addressToAdd);
+                               // Cleanup for next entry
+                               Street = "";
+                               Number = "";
+                               Zip = "";
+                               City = "";
+                            }
+                            else
+                            {
+                               Page.DisplayAlert("Address not valid!", "Address not found in Google Maps. Please verfy correctness and try again.", "OK");
+                            }
                          }
                       }));
          }
@@ -111,6 +119,7 @@ namespace TSPSolver.ViewModels
       #region CalculateBestRouteCommand
 
       private Command _calculateBestRouteCommand { get; set; }
+
       public ICommand CalculateBestRouteCommand
       {
          get
@@ -131,26 +140,6 @@ namespace TSPSolver.ViewModels
       }
 
       #endregion //CalculateBestRouteCommand
-
-      #region DeleteAddressFromList
-
-      // Add address to list
-      private Command _deleteAddressFromListCommand { get; set; }
-      public ICommand DeleteAddressFromListCommand
-      {
-         get
-         {
-            return _deleteAddressFromListCommand ??
-                   (_deleteAddressFromListCommand =
-                      new Command<Guid>((guid) => 
-                      {
-                         Address addressToDelete = AddressList.FirstOrDefault(item => item.Id == guid);
-                         AddressList.Remove(addressToDelete);
-                      }));
-         }
-      }
-
-      #endregion
 
       #endregion //Commands
    }

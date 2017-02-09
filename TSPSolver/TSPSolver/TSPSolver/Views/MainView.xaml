@@ -94,19 +94,25 @@
                           </StackLayout>
                           <StackLayout HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"
                                        Orientation="Horizontal">
+                            <Button x:Name="depotButton" Image="Depot_Inactive_85.png"
+                                    HorizontalOptions="EndAndExpand" VerticalOptions="Center"
+                                    CommandParameter="{Binding Id}"
+                                    Clicked="SetDepotButton_OnClicked"/>
                             <Button Image="Edit_Blue_85.png"
                                     HorizontalOptions="EndAndExpand" VerticalOptions="Center"
-                                    CommandParameter="{Binding Id}"/>
+                                    CommandParameter="{Binding Id}"
+                                    Clicked="EditButton_OnClicked"/>
                             <Button Image="Delete_Red_85.png"
                                     HorizontalOptions="EndAndExpand" VerticalOptions="Center"
-                                    Command="{Binding DeleteAddressFromListCommand}"
-                                    CommandParameter="{Binding Id}"/>
+                                    CommandParameter="{Binding Id}"
+                                    Clicked="DeleteButton_OnClicked"/>
                           </StackLayout>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+      
         <Button Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
                 Text="Calculate shortest route ..."
                 Style="{StaticResource ButtonStyle}" 

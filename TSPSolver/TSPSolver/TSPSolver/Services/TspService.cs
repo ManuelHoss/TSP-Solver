@@ -8,14 +8,12 @@ namespace TSPSolver.Services
    public class TspService
    {
       #region Fields
-
-      private readonly DistanceProvider _distanceProvider;
+      
 
       #endregion //Fields
       
       public TspService()
       {
-         _distanceProvider = new DistanceProvider();
       }
 
       public Route CalculateBestRoute(List<Address> addresses)
@@ -30,7 +28,7 @@ namespace TSPSolver.Services
 
       private AdjacencyMatrix GetDistancesFromGoogleApi(List<Address> addresses)
       {
-         return _distanceProvider.GetDistancesAsync(addresses).Result;
+         return DistanceProvider.GetDistancesAsync(addresses).Result;
       }
 
       private Dictionary<Address, Dictionary<Address, double>> ParseAdjacencyMatrixToDistanceMatrix(AdjacencyMatrix matrix, List<Address> addresses)
@@ -42,7 +40,7 @@ namespace TSPSolver.Services
             Dictionary<Address, double> tempMatrix = new Dictionary<Address, double>();
             for (int j = 0; j < addresses.Count; j++)
             {
-               if (i != j)
+               if (i != j && matrix.Rows[i] != null && matrix.Rows[i].elements[j] != null)
                {
                   tempMatrix.Add(addresses.ElementAt(j), matrix.Rows[i].elements[j].distance.value);
                }
