@@ -9,14 +9,16 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
 {
     class Dote
     {
-        private Address location;
+        private Address address;
+        private double distance;
+
         public Dote()
         {
 
         }
         public Dote(Address location)
         {
-            this.location = location;
+            this.address = location;
         }
         public Dote(int val, int[] currentAmount)
         {
@@ -27,8 +29,31 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
 
         }
 
-        internal List<Dote> getNotUsedDotes()
+        internal List<Address> getNotUsedAddresses()
         {
+            throw new NotImplementedException();
+        }
+
+        internal Address currentAddress()
+        {
+            return null;
+            throw new NotImplementedException();
+        }
+
+        internal bool isAddress(Address notUsed)
+        {
+            return address.Equals(notUsed); //TODO write the equals 
+            throw new NotImplementedException();
+        }
+
+        internal void refreshDatas(Dote current)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal double getDistance()
+        {
+            return distance;
             throw new NotImplementedException();
         }
     }
