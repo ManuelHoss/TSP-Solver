@@ -9,37 +9,38 @@ using TSPSolver.Model;
 
 namespace TSPSolver.Services
 {
-   public class DistanceProvider
+   public static class DistanceProvider
    {
-      private readonly HttpClient _client = new HttpClient();
+      private static readonly HttpClient _client = new HttpClient();
 
-      private AdjacencyMatrix _adjacencyMatrix;
+      private static AdjacencyMatrix _adjacencyMatrix;
+      private static GoogleMapsApiAddressResult _googleMapsApiAddressResult;
 
-      public async Task<AdjacencyMatrix> GetDistancesAsync(List<Address> addresses)
+      public static async Task<AdjacencyMatrix> GetDistancesAsync(List<Address> addresses)
       {
          _adjacencyMatrix = new AdjacencyMatrix();
          
-         StringBuilder stringBuilder = new StringBuilder();
-         stringBuilder.Append("https://maps.googleapis.com/maps/api/distancematrix/json?");
+         StringBuilder uriString = new StringBuilder();
+         uriString.Append("https://maps.googleapis.com/maps/api/distancematrix/json?");
 
-         stringBuilder.Append("origins=");
+         uriString.Append("origins=");
          // Add all addresses seperated by "|" as origin
          foreach (var address in addresses)
          {
-            stringBuilder.Append($"{address.Street}+{address.Number}+{address.City}+{address.City}|");
+            uriString.Append($"{address.Street}+{address.Number}+{address.City}+{address.City}|");
          }
-         stringBuilder.Remove(stringBuilder.Length - 1, 1);
-         stringBuilder.Append("&destinations=");
+         uriString.Remove(uriString.Length - 1, 1);
+         uriString.Append("&destinations=");
          // Add all addresses seperated by "|" as destination
          foreach (var address in addresses)
          {
-            stringBuilder.Append($"{address.Street}+{address.Number}+{address.City}+{address.City}|");
+            uriString.Append($"{address.Street}+{address.Number}+{address.City}+{address.City}|");
          }
-         stringBuilder.Remove(stringBuilder.Length - 1, 1);
+         uriString.Remove(uriString.Length - 1, 1);
 
-         stringBuilder.Append($"&language=de-DE&key={Constants.GoogleDistanceMatrixApiKey}");
+         uriString.Append($"&language=de-DE&key={Constants.GoogleDistanceMatrixApiKey}");
 
-         var uri = new Uri(stringBuilder.ToString());
+         var uri = new Uri(uriString.ToString());
 
          try
          {
@@ -54,6 +55,38 @@ namespace TSPSolver.Services
          }
 
          return _adjacencyMatrix;
+      }
+
+      public static async Task<string> ValidateAddress(string addressToValidate)
+      {
+         bool addressIsValid = false;
+
+         StringBuilder uriString = new StringBuilder();
+         uriString.Append("https://maps.googleapis.com/maps/api/geocode/json?address=");
+         uriString.Append(addressToValidate);
+
+         var uri = new Uri(uriString.ToString());
+
+         try
+         {
+            HttpResponseMessage response = _client.GetAsync(uri).Result;
+            response.EnsureSuccessStatusCode();
+            string content = await response.Content.ReadAsStringAsync();
+            _googleMapsApiAddressResult = JsonConvert.DeserializeObject<GoogleMapsApiAddressResult>(content);
+         }
+         catch (Exception ex)
+         {
+            Debug.WriteLine(@"ERROR {0}", ex.Message);
+         }
+
+         if (_googleMapsApiAddressResult.status == "OK")
+         {
+            return _googleMapsApiAddressResult.results[0].formatted_address;
+         }
+         else
+         {
+            return _googleMapsApiAddressResult.status;
+         }
       }
    }
 }

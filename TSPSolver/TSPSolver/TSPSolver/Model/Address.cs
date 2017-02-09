@@ -9,6 +9,7 @@ namespace TSPSolver.Model
       public string Number { get; set; }
       public string Zip { get; set; }
       public string City { get; set; }
+      public string FormattedAddress { get; set; }
 
       // Timewindows
       public DateTime TimeWindowsStart { get; set; }

@@ -96,7 +96,8 @@
                                        Orientation="Horizontal">
                             <Button Image="Edit_Blue_85.png"
                                     HorizontalOptions="EndAndExpand" VerticalOptions="Center"
-                                    CommandParameter="{Binding Id}"/>
+                                    CommandParameter="{Binding Id}"
+                                    Clicked="EditButton_OnClicked"/>
                             <Button Image="Delete_Red_85.png"
                                     HorizontalOptions="EndAndExpand" VerticalOptions="Center"
                                     CommandParameter="{Binding Id}"

@@ -19,7 +19,17 @@ namespace TSPSolver.Views
 
       private void DeleteButton_OnClicked(object sender, EventArgs e)
       {
-         var button = (Xamarin.Forms.Button)sender;
+         var button = (Button)sender;
+         Address listitem = _viewModel.AddressList.FirstOrDefault(item => item.Id.ToString() == button.CommandParameter.ToString());
+         if (listitem != null)
+         {
+            _viewModel.AddressList.Remove(listitem);
+         }
+      }
+
+      private void EditButton_OnClicked(object sender, EventArgs e)
+      {
+         var button = (Button)sender;
          Address listitem = _viewModel.AddressList.FirstOrDefault(item => item.Id.ToString() == button.CommandParameter.ToString());
          if (listitem != null)
          {

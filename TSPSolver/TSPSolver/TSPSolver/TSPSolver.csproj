@@ -45,6 +45,7 @@
     <Compile Include="Model\Distance.cs" />
     <Compile Include="Model\Duration.cs" />
     <Compile Include="Model\Element.cs" />
+    <Compile Include="Model\GoogleMapsApiAddressResult.cs" />
     <Compile Include="Model\Route.cs" />
     <Compile Include="Model\Row.cs" />
     <Compile Include="Services\TspService.cs" />

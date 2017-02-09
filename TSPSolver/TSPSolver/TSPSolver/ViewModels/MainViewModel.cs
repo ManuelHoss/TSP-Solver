@@ -87,20 +87,23 @@ namespace TSPSolver.ViewModels
                          & !String.IsNullOrEmpty(_zip)
                          & !String.IsNullOrEmpty(_city))
                          {
-                            _addressList.Add(new Address()
+                            Address addressToAdd = new Address() { Id = Guid.NewGuid(), Street = _street, Number = _number, Zip = _zip, City = _city };
+                            string formattedAddress = DistanceProvider.ValidateAddress(addressToAdd.ToString()).Result;
+                            if (formattedAddress.StartsWith(_street))
                             {
-                               Id = Guid.NewGuid(),
-                               Street = _street,
-                               Number = _number,
-                               Zip = _zip,
-                               City = _city
-                            });
+                               addressToAdd.FormattedAddress = formattedAddress;
+                               _addressList.Add(addressToAdd);
 
-                            // Cleanup for next entry
-                            Street = "";
-                            Number = "";
-                            Zip = "";
-                            City = "";
+                               // Cleanup for next entry
+                               Street = "";
+                               Number = "";
+                               Zip = "";
+                               City = "";
+                            }
+                            else
+                            {
+                               Page.DisplayAlert("Address not valid!", "Address not found in Google Maps. Please verfy correctness and try again.", "OK");
+                            }
                          }
                       }));
          }
