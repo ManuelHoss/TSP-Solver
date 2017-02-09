@@ -25,7 +25,7 @@ namespace TSPSolver.Views
          {
             if (listitem.IsDepotAddress)
             {
-               this.DisplayAlert("Depot address can't be deleted!","" , "OK");
+               DisplayAlert("Depot address can't be deleted!","" , "OK");
             }
             else
             {

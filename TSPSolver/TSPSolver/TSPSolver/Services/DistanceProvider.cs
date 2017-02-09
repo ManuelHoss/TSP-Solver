@@ -27,14 +27,14 @@ namespace TSPSolver.Services
          // Add all addresses seperated by "|" as origin
          foreach (var address in addresses)
          {
-            uriString.Append($"{address.Street}+{address.Number}+{address.City}+{address.City}|");
+            uriString.Append($"{address.FormattedAddress}|");
          }
          uriString.Remove(uriString.Length - 1, 1);
          uriString.Append("&destinations=");
          // Add all addresses seperated by "|" as destination
          foreach (var address in addresses)
          {
-            uriString.Append($"{address.Street}+{address.Number}+{address.City}+{address.City}|");
+            uriString.Append($"{address.FormattedAddress}|");
          }
          uriString.Remove(uriString.Length - 1, 1);
 
@@ -57,7 +57,7 @@ namespace TSPSolver.Services
          return _adjacencyMatrix;
       }
 
-      public static async Task<string> ValidateAddress(string addressToValidate)
+      public static async Task<GoogleMapsApiAddressResult> ValidateAddress(string addressToValidate)
       {
          bool addressIsValid = false;
 
@@ -79,14 +79,7 @@ namespace TSPSolver.Services
             Debug.WriteLine(@"ERROR {0}", ex.Message);
          }
 
-         if (_googleMapsApiAddressResult.status == "OK")
-         {
-            return _googleMapsApiAddressResult.results[0].formatted_address;
-         }
-         else
-         {
-            return _googleMapsApiAddressResult.status;
-         }
+         return _googleMapsApiAddressResult;
       }
    }
 }
