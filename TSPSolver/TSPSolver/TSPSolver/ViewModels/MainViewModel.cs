@@ -131,27 +131,7 @@ namespace TSPSolver.ViewModels
       }
 
       #endregion //CalculateBestRouteCommand
-
-      #region DeleteAddressFromList
-
-      // Add address to list
-      private Command _deleteAddressFromListCommand { get; set; }
-      public ICommand DeleteAddressFromListCommand
-      {
-         get
-         {
-            return _deleteAddressFromListCommand ??
-                   (_deleteAddressFromListCommand =
-                      new Command<Guid>((guid) => 
-                      {
-                         Address addressToDelete = AddressList.FirstOrDefault(item => item.Id == guid);
-                         AddressList.Remove(addressToDelete);
-                      }));
-         }
-      }
-
-      #endregion
-
+      
       #endregion //Commands
    }
 }

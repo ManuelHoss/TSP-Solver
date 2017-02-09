@@ -99,8 +99,8 @@
                                     CommandParameter="{Binding Id}"/>
                             <Button Image="Delete_Red_85.png"
                                     HorizontalOptions="EndAndExpand" VerticalOptions="Center"
-                                    Command="{Binding DeleteAddressFromListCommand}"
-                                    CommandParameter="{Binding Id}"/>
+                                    CommandParameter="{Binding Id}"
+                                    Clicked="DeleteButton_OnClicked"/>
                           </StackLayout>
                         </StackLayout>
                     </ViewCell>
