@@ -4,9 +4,9 @@ namespace TSPSolver.Model
 {
    public class Route
    {
-      private List<Address> _addresses;
-      private double _distance;
-      private double _duration;
+      private List<Address> _addresses = new List<Address>();
+      private double _distance = 0;
+      private double _duration = 0;
 
       public List<Address> Addresses
       {

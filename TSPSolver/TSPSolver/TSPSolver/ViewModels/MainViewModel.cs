@@ -17,7 +17,7 @@ namespace TSPSolver.ViewModels
       private string _zip;
       private string _city;
 
-      private TspService tspService;
+      private TspService _tspService;
 
       #region Constructor
 
@@ -131,8 +131,8 @@ namespace TSPSolver.ViewModels
                          //Case of editing a existent Entry
                          if (AddressList.Count > 1)
                          {
-                            tspService = new TspService();
-                            Route bestRoute = tspService.CalculateBestRoute(AddressList.ToList());
+                            _tspService = new TspService();
+                            Route bestRoute = _tspService.CalculateBestRoute(AddressList.ToList(), AddressList.FirstOrDefault(address => address.IsDepotAddress));
                             Page.Navigation.PushAsync(new BestRouteDetailView(bestRoute));
                          }
                       }));

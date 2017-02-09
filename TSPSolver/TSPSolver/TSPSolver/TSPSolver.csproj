@@ -50,11 +50,13 @@
     <Compile Include="Model\Row.cs" />
     <Compile Include="Services\TspService.cs" />
     <Compile Include="Services\DistanceProvider.cs" />
+    <Compile Include="TSP Algorithms\ACOOptimization\Ant.cs" />
+    <Compile Include="TSP Algorithms\ACOOptimization\RouletteWheelSelection.cs" />
     <Compile Include="TSP Algorithms\DynamicProgramming\Dote.cs" />
     <Compile Include="TSP Algorithms\DynamicProgramming\TspSolver_DynamicProgramming.cs" />
     <Compile Include="TSP Algorithms\MockAlgorithm\TspSolver_MockImplementation.cs" />
     <Compile Include="Services\TspSolver_MockImpl.cs" />
-    <Compile Include="TSP Algorithms\PheromoneAlgorithm\TspSolver_PheromoneAlgImplementation.cs" />
+    <Compile Include="TSP Algorithms\ACOOptimization\TspSolver_PheromoneAlgImplementation.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\BestRouteDetailViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />

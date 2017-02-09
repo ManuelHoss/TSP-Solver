@@ -28,7 +28,7 @@ namespace TSPSolver
       public static Color Red = Color.FromHex("#ee1111");
       public static Color DarkRed = Color.FromHex("#b91d47");
 
-      public static string GoogleDistanceMatrixApiKey = "AIzaSyBQwOackntfrhkKycA-iq5TOeES3ykOkek";
+      public static string GoogleDistanceMatrixApiKey = "AIzaSyDEqoD9W5XLeBMUBqo54ynpUVlRLJfDww0";
       public static string GoogleMapsApiKey = "AIzaSyD5eTF5glGYsrBqJlZ4rKtdH-Ag9mUCib0";
    }
 }
