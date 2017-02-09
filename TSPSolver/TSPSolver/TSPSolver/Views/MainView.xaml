@@ -21,6 +21,7 @@
             <Setter Property="FontSize" Value="Medium" />
             <Setter Property="HorizontalOptions" Value="FillAndExpand" />
             <Setter Property="TextColor" Value="{x:Static local:Constants.LightBlue}" />
+            <Setter Property="HeightRequest" Value="65" />
           </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -90,6 +91,16 @@
                               <Label Text="{Binding City}"
                                      Style="{StaticResource AddressLabelStyle}" />
                             </StackLayout>
+                          </StackLayout>
+                          <StackLayout HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"
+                                       Orientation="Horizontal">
+                            <Button Image="Edit_Blue_85.png"
+                                    HorizontalOptions="EndAndExpand" VerticalOptions="Center"
+                                    CommandParameter="{Binding Id}"/>
+                            <Button Image="Delete_Red_85.png"
+                                    HorizontalOptions="EndAndExpand" VerticalOptions="Center"
+                                    Command="{Binding DeleteAddressFromListCommand}"
+                                    CommandParameter="{Binding Id}"/>
                           </StackLayout>
                         </StackLayout>
                     </ViewCell>
