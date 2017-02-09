@@ -32,10 +32,8 @@ namespace TSPSolver.ViewModels
       }
 
       #endregion //Constructor
-      
-      #region Properties
 
-      #endregion //Properties
+      #region Properties
 
       public ObservableCollection<Address> AddressList
       {
@@ -67,7 +65,11 @@ namespace TSPSolver.ViewModels
          set { SetProperty(ref _city, value); }
       }
 
+      #endregion //Properties
+
       #region Commands
+
+      #region AddAddressToListCommand
 
       // Add address to list
       private Command _addAddressToListCommand { get; set; }
@@ -80,13 +82,14 @@ namespace TSPSolver.ViewModels
                       new Command(() =>
                       {
                          //Case of editing a existent Entry
-                         if (!String.IsNullOrEmpty(_street) 
-                         & !String.IsNullOrEmpty(_number) 
-                         & !String.IsNullOrEmpty(_zip) 
+                         if (!String.IsNullOrEmpty(_street)
+                         & !String.IsNullOrEmpty(_number)
+                         & !String.IsNullOrEmpty(_zip)
                          & !String.IsNullOrEmpty(_city))
                          {
                             _addressList.Add(new Address()
                             {
+                               Id = Guid.NewGuid(),
                                Street = _street,
                                Number = _number,
                                Zip = _zip,
@@ -102,6 +105,10 @@ namespace TSPSolver.ViewModels
                       }));
          }
       }
+
+      #endregion //AddAddressToListCommand
+
+      #region CalculateBestRouteCommand
 
       private Command _calculateBestRouteCommand { get; set; }
       public ICommand CalculateBestRouteCommand
@@ -122,6 +129,28 @@ namespace TSPSolver.ViewModels
                       }));
          }
       }
+
+      #endregion //CalculateBestRouteCommand
+
+      #region DeleteAddressFromList
+
+      // Add address to list
+      private Command _deleteAddressFromListCommand { get; set; }
+      public ICommand DeleteAddressFromListCommand
+      {
+         get
+         {
+            return _deleteAddressFromListCommand ??
+                   (_deleteAddressFromListCommand =
+                      new Command<Guid>((guid) => 
+                      {
+                         Address addressToDelete = AddressList.FirstOrDefault(item => item.Id == guid);
+                         AddressList.Remove(addressToDelete);
+                      }));
+         }
+      }
+
+      #endregion
 
       #endregion //Commands
    }
