@@ -6,7 +6,7 @@ namespace TSPSolver.Services
 {
    public class TspSolver_MockImpl : ITspSolver
    {
-      public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix, List<Address> addresses, Address depotAddress)
+      public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix, Dictionary<Address, Dictionary<Address, double>> durationMatrix, List<Address> addresses, Address depotAddress)
       {
          // Mock route
          List<Address> mockAddresses = new List<Address>();
@@ -22,7 +22,7 @@ namespace TSPSolver.Services
                mockDistance += value;
             }
          }
-         return new Route() {Addresses = mockAddresses, Distance = mockDistance , Duration = 0};
+         return new Route() { Addresses = mockAddresses, Distance = mockDistance, Duration = 0 };
       }
    }
 }
