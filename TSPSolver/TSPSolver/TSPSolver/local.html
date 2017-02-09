@@ -41,13 +41,8 @@
         <select id="start">
         </select>
         <select multiple id="waypoints">
-            <option value="Universitätsstraße 6a, 86159 Augsburg">Universitätsstraße 6a, 86159 Augsburg</option>
-            <option value="Bürgermeister-Ulrich-Straße 90, 86199 Augsburg">Bürgermeister-Ulrich-Straße 90, 86199 Augsburg</option>
-            <!--<option value="Aubinger Str. 162, 81243 München">Aubinger Str. 162, 81243 München</option>-->
-            <option value="Sommestraße 40, 86156 Augsburg">Sommestraße 40, 86156 Augsburg</option>
         </select>
         <select id="end">
-            <option value="Kapuzinergasse 20,86150 Augsburg">Halifax, NS</option>
         </select>
     </div>
     <div id="directions-panel"></div>
@@ -83,7 +78,7 @@
                 origin: document.getElementById('start').value,
                 destination: document.getElementById('end').value,
                 waypoints: waypts,
-                optimizeWaypoints: true,
+                optimizeWaypoints: false,
                 travelMode: google.maps.TravelMode.DRIVING
             },
             function(response, status) {

@@ -33,6 +33,11 @@ namespace TSPSolver.Views
          int pos = htmlString.IndexOf("<select id=\"start\">\r\n") + 25;
          htmlString = htmlString.Insert(pos, $"<option value=\"{bestRoute.Addresses[0]}\">{bestRoute.Addresses[0]}</option>\r\n");
 
+         for (int i = bestRoute.Addresses.Count - 1; i > 1; i--)
+         {
+            pos = htmlString.IndexOf("<select multiple id=\"waypoints\">\r\n") + 38;
+            htmlString = htmlString.Insert(pos, $"<option value=\"{bestRoute.Addresses[i]}\">{bestRoute.Addresses[i]}</option>\r\n");
+         }
 
          pos = htmlString.IndexOf("<select id=\"end\">\r\n") + 23;
          htmlString = htmlString.Insert(pos, $"<option value=\"{bestRoute.Addresses[0]}\">{bestRoute.Addresses[0]}</option>\r\n");
