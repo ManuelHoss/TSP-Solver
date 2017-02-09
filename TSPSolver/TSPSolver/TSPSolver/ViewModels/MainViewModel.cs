@@ -24,11 +24,11 @@ namespace TSPSolver.ViewModels
       public MainViewModel(Page page) : base(page)
       {
          // Initialize Mock List
-         _addressList.Add(new Address() {Street = "Kapuzinergasse", Number = "20", Zip = "86150", City = "Augsburg"});
-         _addressList.Add(new Address() {Street = "Universitätsstraße", Number = "6a", Zip = "86159", City = "Augsburg"});
-         _addressList.Add(new Address() {Street = "Bürgermeister-Ulrich-Straße", Number = "90", Zip = "86199", City = "Augsburg"});
-         _addressList.Add(new Address() {Street = "Aubinger Str.", Number = "162", Zip = "81243", City = "München" });
-         _addressList.Add(new Address() {Street = "Sommestraße", Number = "40", Zip = "86156", City = "Augsburg" });
+         _addressList.Add(new Address() {Street = "Kapuzinergasse", Number = "20", Zip = "86150", City = "Augsburg", Id = Guid.NewGuid() });
+         _addressList.Add(new Address() {Street = "Universitätsstraße", Number = "6a", Zip = "86159", City = "Augsburg", Id = Guid.NewGuid() });
+         _addressList.Add(new Address() {Street = "Bürgermeister-Ulrich-Straße", Number = "90", Zip = "86199", City = "Augsburg", Id = Guid.NewGuid() });
+         _addressList.Add(new Address() {Street = "Aubinger Str.", Number = "162", Zip = "81243", City = "München", Id = Guid.NewGuid() });
+         _addressList.Add(new Address() {Street = "Sommestraße", Number = "40", Zip = "86156", City = "Augsburg", Id = Guid.NewGuid() });
       }
 
       #endregion //Constructor
@@ -87,7 +87,7 @@ namespace TSPSolver.ViewModels
                          & !String.IsNullOrEmpty(_zip)
                          & !String.IsNullOrEmpty(_city))
                          {
-                            Address addressToAdd = new Address() { Id = Guid.NewGuid(), Street = _street, Number = _number, Zip = _zip, City = _city };
+                            Address addressToAdd = new Address() { Street = _street, Number = _number, Zip = _zip, City = _city };
                             string formattedAddress = DistanceProvider.ValidateAddress(addressToAdd.ToString()).Result;
                             if (formattedAddress.StartsWith(_street))
                             {

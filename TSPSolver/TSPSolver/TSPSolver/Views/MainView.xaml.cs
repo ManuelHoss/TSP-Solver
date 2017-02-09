@@ -9,7 +9,7 @@ namespace TSPSolver.Views
    public partial class MainView : ContentPage
    {
       private readonly MainViewModel _viewModel;
-
+      private Button _depotButton;
       public MainView()
       {
          InitializeComponent();
@@ -23,7 +23,14 @@ namespace TSPSolver.Views
          Address listitem = _viewModel.AddressList.FirstOrDefault(item => item.Id.ToString() == button.CommandParameter.ToString());
          if (listitem != null)
          {
-            _viewModel.AddressList.Remove(listitem);
+            if (listitem.IsDepotAddress)
+            {
+               this.DisplayAlert("Depot address can't be deleted!","" , "OK");
+            }
+            else
+            {
+               _viewModel.AddressList.Remove(listitem);
+            }
          }
       }
 
@@ -33,8 +40,23 @@ namespace TSPSolver.Views
          Address listitem = _viewModel.AddressList.FirstOrDefault(item => item.Id.ToString() == button.CommandParameter.ToString());
          if (listitem != null)
          {
-            _viewModel.AddressList.Remove(listitem);
+
          }
+      }
+
+      private void SetDepotButton_OnClicked(object sender, EventArgs e)
+      {
+         if (_depotButton != null)
+         {
+            // Unselect old depot address
+            _depotButton.Image = "Depot_Inactive_85.png";
+            _viewModel.AddressList.FirstOrDefault(item => item.Id.ToString() == _depotButton.CommandParameter.ToString()).IsDepotAddress = false;
+         }
+         
+         // Select new depot address
+         _depotButton = (Button)sender;
+         _depotButton.Image = "Depot_Active_85.png";
+         _viewModel.AddressList.FirstOrDefault(item => item.Id.ToString() == _depotButton.CommandParameter.ToString()).IsDepotAddress = true;
       }
    }
 
