@@ -3,6 +3,7 @@ using System.Linq;
 using TSPSolver.Interfaces;
 using TSPSolver.Model;
 using TSPSolver.TSP_Algorithms.ACOOptimization;
+using TSPSolver.TSP_Algorithms.DynamicProgramming;
 
 namespace TSPSolver.Services
 {
@@ -24,7 +25,7 @@ namespace TSPSolver.Services
          Dictionary<Address, Dictionary<Address, double>> durationMatrix = ParseAdjacencyMatrixToDurationMatrix(adjacencyMatrix, addresses);
 
          // Create Solver and start calculation
-         ITspSolver tspSolver = new TspSolver_PheromoneAlgImplementation();
+         ITspSolver tspSolver = new TspSolver_DynamicProgramming();
          return tspSolver.CalculateShortestRoute(distanceMatrix, durationMatrix, addresses, depotAddress);
       }
 
