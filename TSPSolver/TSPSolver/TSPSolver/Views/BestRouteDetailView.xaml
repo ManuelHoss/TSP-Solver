@@ -1,13 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:tspSolver="clr-namespace:TSPSolver;assembly=TSPSolver"
              x:Class="TSPSolver.Views.BestRouteDetailView"
              Title="Best route">
-  <StackLayout>
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <Style x:Key="RouteLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="White"/>
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.Resources>
+  <StackLayout Margin="12" >
     <WebView x:Name="MapsWebView"
              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-    <Label Text="{Binding Distance, StringFormat='Distance of the best route found: {0} meters.'}" 
-           VerticalOptions="Center" HorizontalOptions="Center" 
-           FontSize="24"/>
+    <StackLayout Margin="12" Padding="12"
+                 BackgroundColor="{x:Static tspSolver:Constants.Blue}">
+      <Label Text="Best Route"
+             FontSize="Medium" FontAttributes="Bold"
+             
+             Style="{StaticResource RouteLabelStyle}"/>
+      <Label Text="{Binding OrderedAddressesString, StringFormat='{0}'}"
+             Style="{StaticResource RouteLabelStyle}"/>
+      <Label Text="{Binding Distance, StringFormat='Distance: {0} meters.'}"
+             FontSize="Medium"
+             Style="{StaticResource RouteLabelStyle}"/>
+    </StackLayout>
   </StackLayout>
 </ContentPage>
