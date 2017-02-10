@@ -87,7 +87,6 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
                }
                Debug.WriteLine($"Best route from ant {ant}: {ant.BestRoute} - with length: {ant.BestRoute.Distance}");
                UpdatePheromoneMatrix(route);
-               ant.ResetTempParameters();
             }
          }
       }

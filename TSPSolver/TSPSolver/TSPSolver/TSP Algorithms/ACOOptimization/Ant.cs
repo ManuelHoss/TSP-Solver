@@ -15,6 +15,12 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
       public Address CurrentCity { get; set; }
       private TspSolver_PheromoneAlgImplementation _tspSolver;
 
+      /// <summary>
+      /// Constructor class for an Ant.
+      /// </summary>
+      /// <param name="startCity">City where the ant starts to search for a route.</param>
+      /// <param name="addresses">All addresses the ant has to visit.</param>
+      /// <param name="tspSolver"><see cref="TspSolver_PheromoneAlgImplementation"/> holds the distanceMatrix and pheromoneMatrix.</param>
       public Ant(Address startCity, List<Address> addresses, TspSolver_PheromoneAlgImplementation tspSolver)
       {
          StartCity = CurrentCity = startCity;
@@ -26,9 +32,13 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
          BestRoute = new Route() { Distance = double.MaxValue };
       }
 
-
+      /// <summary>
+      /// Searches for the route, which seems to be best, according to the current pheromone situation.
+      /// </summary>
+      /// <returns>A <see cref="Route"/> which seems to be best, according to the current pheromone situation</returns>
       public Route FindRoute()
       {
+         ResetTempParameters();
          // Find new route according to current pheromone situation
          CurrentRoute = new Route() { Addresses = { StartCity}, Distance = 0, Duration = 0 };
          while (CurrentRoute.Addresses.Count < AllCities.Count)
@@ -48,7 +58,10 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
          return CurrentRoute;
       }
 
-      public void MoveToNextCity()
+      /// <summary>
+      /// Chooses a city according to the current pheromone situation, moves to this city and removes it from notvisited cities.
+      /// </summary>
+      private void MoveToNextCity()
       {
          // Calculate probabilities to move to city x (https://en.wikipedia.org/wiki/Ant_colony_optimization_algorithms)
          Dictionary<Address, double> probabilities = new Dictionary<Address, double>();
@@ -64,13 +77,17 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
          // Update DistanceMatrix
          CurrentRoute.Distance += _tspSolver.DistanceMatrix[CurrentCity][chosenCity];
 
-         // "Move" to chosen city
+         // "Move" to chosen city and remove it from NotVisitedCities
          CurrentCity = chosenCity;
          CurrentRoute.Addresses.Add(chosenCity);
-         
          NotVisitedCities.Remove(chosenCity);
       }
 
+      /// <summary>
+      /// Calculates the probability to move to a specified city according to the current pheromone intensity.
+      /// </summary>
+      /// <param name="targetCity">City to move to.</param>
+      /// <returns>Probability depending on pheromone situation to move to tagetCity</returns>
       private double CalculateProbabilityForCity(Address targetCity)
       {
          double invertedDistance = 1 / _tspSolver.DistanceMatrix[CurrentCity][targetCity];
@@ -88,7 +105,10 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
          return numerator / denominator;
       }
 
-      public void ResetTempParameters()
+      /// <summary>
+      /// Resets the parameter of the ant, bevor starting a new route.
+      /// </summary>
+      private void ResetTempParameters()
       {
          CurrentCity = StartCity;
          CurrentRoute = new Route();
