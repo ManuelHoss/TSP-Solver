@@ -129,7 +129,11 @@ namespace TSPSolver.ViewModels
                       new Command(() =>
                       {
                          //Case of editing a existent Entry
-                         if (AddressList.Count > 1)
+                         if (AddressList.Count(item => item.IsDepotAddress == true) < 1)
+                         {
+                            Page.DisplayAlert("No depot address chosen!", "Choose a address as your depot address by clicking the transporter icon on one of the address entries!", "OK");
+                         }
+                         else if (AddressList.Count > 1)
                          {
                             _tspService = new TspService();
                             Route bestRoute = _tspService.CalculateBestRoute(AddressList.ToList(), AddressList.FirstOrDefault(address => address.IsDepotAddress));

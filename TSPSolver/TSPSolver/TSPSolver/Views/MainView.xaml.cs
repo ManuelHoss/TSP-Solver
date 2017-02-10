@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using TSPSolver.CSV_Import;
 using TSPSolver.Model;
 using TSPSolver.ViewModels;
 using Xamarin.Forms;
@@ -57,6 +58,11 @@ namespace TSPSolver.Views
          _depotButton = (Button)sender;
          _depotButton.Image = "Depot_Active_85.png";
          _viewModel.AddressList.FirstOrDefault(item => item.Id.ToString() == _depotButton.CommandParameter.ToString()).IsDepotAddress = true;
+      }
+
+      private void ReadCsvButton_OnClicked(object sender, EventArgs e)
+      {
+         CsvHelper.ReadCsv();
       }
    }
 

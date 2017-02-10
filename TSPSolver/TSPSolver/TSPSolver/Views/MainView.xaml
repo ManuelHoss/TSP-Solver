@@ -58,11 +58,16 @@
                Placeholder="Enter ZIP ..."
                Style="{StaticResource AddressEntyStyle}"
                Text="{Binding Zip, Mode=TwoWay}" />
-
+        
         <Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                 Text="Add address"
                 Style="{StaticResource ButtonStyle}"
                 Command="{Binding AddAddressToListCommand}" />
+
+        <Button Grid.Row="0" Grid.Column="2" Grid.RowSpan="3"
+                Image="ImportCsv_White_128.png"
+                Style="{StaticResource ButtonStyle}"
+                Clicked="ReadCsvButton_OnClicked" />
 
         <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                   x:Name="AddressListView"
