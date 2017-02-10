@@ -11,9 +11,10 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
         private List<Address> adresses;
         private Dictionary<Address, Dictionary<Address, double>> distanceMatrix;
 
-        private List<Dote> allDotes;
-        private Dote backInDepot;
+        private List<Node> allDotes;
+        private Node backInDepot;
         private Address depotAddress;
+        private Dictionary<Address, Dictionary<Address, double>> durationMatrix;
 
         public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix, Dictionary<Address, Dictionary<Address, double>> durationMatrix, List<Address> addresses, Address depotAddress)
         {
@@ -21,90 +22,110 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
             this.depotAddress = depotAddress;
             this.adresses = adresses;
             this.distanceMatrix = distanceMatrix;
+            this.durationMatrix = durationMatrix;
             findprecedence();
             builtGraph();
-
-            return null;
+            return findShortesRoute();
+            //return null;
         }
 
+        private Route findShortesRoute()
+        {
+            Route r =new Route();
+            double duration = 0;
+            Node n = backInDepot;
+            while ((n=n.getNodeBefore()) != null)
+            {
+                r.Addresses.Add(n.currentAddress());
+            }
+            return r;
+            
+        }
+
+
+        //TODO
         private void findprecedence()
         {
             return;
-            throw new NotImplementedException("not done jet");
+            
         }
-
+        //sollte fertig sein
         private void builtGraph()
         {
-            List<Dote> currentDotes = new List<Dote>();
-            currentDotes.Add(new Dote(depotAddress));
+            List<Node> currentDotes = new List<Node>();
+            currentDotes.Add(new Node(depotAddress, adresses));
             for (int i = 0; i < length; i++)
             {
-                foreach (Dote d in currentDotes)
+                foreach (Node d in currentDotes)
                 {
                     allDotes.Add(d);
                 }
-                currentDotes = makeNewStep(currentDotes);
+                currentDotes = makeNewStep(currentDotes, i);
                 findPossiblePrecedence();
             }
             //zurück zum depot knoten fehlt noch
-            foreach (Dote d in currentDotes)
+            foreach (Node d in currentDotes)
             {
                 allDotes.Add(d);
             }
 
             lastStepBackToDepot(currentDotes);
         }
-
-        private void lastStepBackToDepot(List<Dote> currentDotes)
+        //sollte fertig sein
+        private void lastStepBackToDepot(List<Node> currentDotes)
         {
-            Dote depotDote = new Dote();
+            Node depotDote = new Node();
             double min = int.MaxValue;
-            Dote shortestpath=null;
+            Node shortestpath=null;
 
-            foreach(Dote current in currentDotes)
+            foreach(Node current in currentDotes)
             {
-                if (current.getDistance() + getDistance(current.currentAddress(), depotAddress) < min)
+                if (current.getDuration() + getDuration(current.currentAddress(), depotAddress) < min)
                 {
-                    min = current.getDistance() + getDistance(current.currentAddress(), depotAddress);
+                    min = current.getDuration() + getDuration(current.currentAddress(), depotAddress);
                     shortestpath = current;
                 }
             }
-            depotDote.refreshDatas(shortestpath);
+            depotDote.refreshDatas(shortestpath,min);
             //set doteBackInDepot in the end.
-            throw new NotImplementedException();
-        }
-
-        private double getDistance(Address firstAddress, Address secondAddress)
-        {
-            return distanceMatrix[firstAddress][secondAddress];
+            backInDepot = depotDote;
             
-            throw new NotImplementedException();
         }
-
+        //ready
+        /**
+         * 
+         */
+        private double getDuration(Address firstAddress, Address secondAddress)
+        {
+            return durationMatrix[firstAddress][secondAddress];
+            
+        }
+        //TODO
         private void findPossiblePrecedence()
         {
-            throw new NotImplementedException();
+            
         }
-
-        private List<Dote> makeNewStep(List<Dote> currentDotes)
+        //ready
+        private List<Node> makeNewStep(List<Node> currentDotes, int step)
         {
-            List<Dote> newStep = new List<Dote>();
-            foreach (Dote current in currentDotes)
+            List<Node> newStep = new List<Node>();
+            foreach (Node current in currentDotes)
             {
 
                 foreach (Address notUsed in current.getNotUsedAddresses())
                 {
                     if (isPossibleOrder(current.currentAddress(), notUsed))
                     {
-                        Dote doteInChange = null;
+                        Node doteInChange = null;
 
                         if ((doteInChange = findDote(notUsed, newStep)) != null)
                         {
-                            doteInChange.refreshDatas(current);
+                            doteInChange.refreshDatas(current, getDuration(current.currentAddress(), doteInChange.currentAddress()));
                         }
                         else
                         {
-                            newStep.Add(new Dote());
+                            double duration = getDuration(current.currentAddress(), notUsed);
+                            newStep.Add(new Node(current,duration, step,notUsed,adresses));
                         }
                     }
                 }
@@ -112,11 +133,11 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
             }
             return newStep;
         }
-
-        private Dote findDote(Address notUsed, List<Dote> newStep)
+        //ready
+        private Node findDote(Address notUsed, List<Node> newStep)
         {
 
-            foreach (Dote d in newStep)
+            foreach (Node d in newStep)
             {
                 if (d.isAddress(notUsed))
                 {
@@ -125,7 +146,7 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
             }
             return null;
         }
-
+        //TODO
         private bool isPossibleOrder(Address current, Address notUsed)
         {
             return true;

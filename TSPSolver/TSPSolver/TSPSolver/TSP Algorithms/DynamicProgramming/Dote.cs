@@ -7,54 +7,83 @@ using TSPSolver.Model;
 
 namespace TSPSolver.TSP_Algorithms.DynamicProgramming
 {
-    class Dote
-    {
+    class Node
+    {   
+        private Node doteBefore=null;
         private Address address;
-        private double distance;
+        private int step;
+        private double distance; //wird nicht verwendet
+        private double duration;
+        private List<Address> notUsedAddresses;
+        
 
-        public Dote()
+        public Node()
         {
 
         }
-        public Dote(Address location)
+
+        public Node(Address location, List<Address> notUsedAddresses)
         {
             this.address = location;
-        }
-        public Dote(int val, int[] currentAmount)
-        {
-            int n = 1+currentAmount.Length;
-            int[] Amount =new int[n];
-            int value = val;
-
-
+            this.notUsedAddresses = notUsedAddresses;
         }
 
-        internal List<Address> getNotUsedAddresses()
+
+
+        public Node(Node current, double duration,int step, Address notUsed, List<Address> adresses)
         {
-            throw new NotImplementedException();
+            this.doteBefore = current;
+            this.address = notUsed;
+            setNotUsedAdresses(adresses);
+            this.address = notUsed;       
+            this.step = step;
+        }
+        
+        private void setNotUsedAdresses(List<Address> adresses)
+        {
+            notUsedAddresses = doteBefore.getNotUsedAddresses();
+            notUsedAddresses.Remove(address);
         }
 
-        internal Address currentAddress()
+        internal Node getNodeBefore()
         {
-            return null;
-            throw new NotImplementedException();
+            return doteBefore;
         }
 
-        internal bool isAddress(Address notUsed)
+        
+        internal void refreshDatas(Node current,double newDuration)
         {
-            return address.Equals(notUsed); //TODO write the equals 
-            throw new NotImplementedException();
+            if(newDuration < duration)
+            {
+                duration = newDuration;
+                doteBefore = current;
+            }
         }
 
-        internal void refreshDatas(Dote current)
+        internal double getDuration()
         {
-            throw new NotImplementedException();
+            return duration;
         }
 
         internal double getDistance()
         {
             return distance;
-            throw new NotImplementedException();
+        }
+
+        internal Address currentAddress()
+        {
+            return address;
+        }
+
+        
+        internal List<Address> getNotUsedAddresses()
+        {
+            return notUsedAddresses;
+        }
+
+        internal bool isAddress(Address notUsed)
+        {
+            return address.Id == notUsed.Id;
         }
     }
 }
