@@ -30,7 +30,7 @@ namespace TSPSolver.Services
 
       private AdjacencyMatrix GetDistancesFromGoogleApi(List<Address> addresses)
       {
-         return DistanceProvider.GetDistancesAsync(addresses).Result;
+         return GoogleProvider.GetDistancesAsync(addresses).Result;
       }
 
       private Dictionary<Address, Dictionary<Address, double>> ParseAdjacencyMatrixToDistanceMatrix(AdjacencyMatrix matrix, List<Address> addresses)

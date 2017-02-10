@@ -89,7 +89,7 @@ namespace TSPSolver.ViewModels
                              & !String.IsNullOrEmpty(_city))
                          {
                             Address addressToAdd = new Address() {Street = _street, Number = _number, Zip = _zip, City = _city};
-                            GoogleMapsApiAddressResult validationResult = DistanceProvider.ValidateAddress(addressToAdd.ToString()).Result;
+                            GoogleMapsApiAddressResult validationResult = GoogleProvider.ValidateAddress(addressToAdd.ToString()).Result;
 
                             if (validationResult.status == "OK")
                             {

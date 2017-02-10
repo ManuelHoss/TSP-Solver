@@ -9,7 +9,7 @@ using TSPSolver.Model;
 
 namespace TSPSolver.Services
 {
-   public static class DistanceProvider
+   public static class GoogleProvider
    {
       private static readonly HttpClient _client = new HttpClient();
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using TSPSolver.CSV_Import;
 using TSPSolver.Model;
@@ -60,9 +61,10 @@ namespace TSPSolver.Views
          _viewModel.AddressList.FirstOrDefault(item => item.Id.ToString() == _depotButton.CommandParameter.ToString()).IsDepotAddress = true;
       }
 
-      private void ReadCsvButton_OnClicked(object sender, EventArgs e)
+      private async void ReadCsvButton_OnClicked(object sender, EventArgs e)
       {
-         CsvHelper.ReadCsv();
+         _viewModel.AddressList =  new ObservableCollection<Address>(await CsvHelper.ReadCsv());
+         AddressListView.ItemsSource = _viewModel.AddressList;
       }
    }
 

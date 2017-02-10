@@ -50,7 +50,7 @@
     <Compile Include="Model\Route.cs" />
     <Compile Include="Model\Row.cs" />
     <Compile Include="Services\TspService.cs" />
-    <Compile Include="Services\DistanceProvider.cs" />
+    <Compile Include="Services\GoogleProvider.cs" />
     <Compile Include="TSP Algorithms\ACOOptimization\Ant.cs" />
     <Compile Include="TSP Algorithms\ACOOptimization\RouletteWheelSelection.cs" />
     <Compile Include="TSP Algorithms\DynamicProgramming\Dote.cs" />
