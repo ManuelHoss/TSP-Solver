@@ -17,7 +17,7 @@ namespace TSPSolver.ViewModels
       private string _zip;
       private string _city;
 
-      private TspService tspService;
+      private TspService _tspService;
 
       #region Constructor
 
@@ -89,7 +89,7 @@ namespace TSPSolver.ViewModels
                              & !String.IsNullOrEmpty(_city))
                          {
                             Address addressToAdd = new Address() {Street = _street, Number = _number, Zip = _zip, City = _city};
-                            GoogleMapsApiAddressResult validationResult = DistanceProvider.ValidateAddress(addressToAdd.ToString()).Result;
+                            GoogleMapsApiAddressResult validationResult = GoogleProvider.ValidateAddress(addressToAdd.ToString()).Result;
 
                             if (validationResult.status == "OK")
                             {
@@ -129,11 +129,15 @@ namespace TSPSolver.ViewModels
                       new Command(() =>
                       {
                          //Case of editing a existent Entry
-                         if (AddressList.Count > 1)
+                         if (AddressList.Count(item => item.IsDepotAddress) < 1)
                          {
-                            tspService = new TspService();
-                            Route bestRoute = tspService.CalculateBestRoute(AddressList.ToList());
-                            Page.Navigation.PushAsync(new BestRouteDetailView(bestRoute));
+                            Page.DisplayAlert("No depot address chosen!", "Choose a address as your depot address by clicking the transporter icon on one of the address entries!", "OK");
+                         }
+                         else if (AddressList.Count > 1)
+                         {
+                            _tspService = new TspService();
+                            Route bestRoute = _tspService.CalculateBestRoute(AddressList.ToList(), AddressList.FirstOrDefault(address => address.IsDepotAddress));
+                            Page.Navigation.PushAsync(new BestRouteTabbedView(bestRoute));
                          }
                       }));
          }

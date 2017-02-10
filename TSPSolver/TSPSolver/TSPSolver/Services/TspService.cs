@@ -2,6 +2,7 @@
 using System.Linq;
 using TSPSolver.Interfaces;
 using TSPSolver.Model;
+using TSPSolver.TSP_Algorithms.ACOOptimization;
 
 namespace TSPSolver.Services
 {
@@ -16,19 +17,20 @@ namespace TSPSolver.Services
       {
       }
 
-      public Route CalculateBestRoute(List<Address> addresses)
+      public Route CalculateBestRoute(List<Address> addresses, Address depotAddress)
       {
-         ITspSolver tspSolver = new TspSolver_MockImpl();
          AdjacencyMatrix adjacencyMatrix = GetDistancesFromGoogleApi(addresses);
          Dictionary<Address, Dictionary<Address, double>> distanceMatrix = ParseAdjacencyMatrixToDistanceMatrix(adjacencyMatrix, addresses);
          Dictionary<Address, Dictionary<Address, double>> durationMatrix = ParseAdjacencyMatrixToDurationMatrix(adjacencyMatrix, addresses);
 
-         return tspSolver.CalculateShortestRoute(distanceMatrix, durationMatrix, addresses, addresses[0]);
+         // Create Solver and start calculation
+         ITspSolver tspSolver = new TspSolver_PheromoneAlgImplementation();
+         return tspSolver.CalculateShortestRoute(distanceMatrix, durationMatrix, addresses, depotAddress);
       }
 
       private AdjacencyMatrix GetDistancesFromGoogleApi(List<Address> addresses)
       {
-         return DistanceProvider.GetDistancesAsync(addresses).Result;
+         return GoogleProvider.GetDistancesAsync(addresses).Result;
       }
 
       private Dictionary<Address, Dictionary<Address, double>> ParseAdjacencyMatrixToDistanceMatrix(AdjacencyMatrix matrix, List<Address> addresses)
