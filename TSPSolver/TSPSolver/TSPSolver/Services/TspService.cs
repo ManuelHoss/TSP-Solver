@@ -25,7 +25,7 @@ namespace TSPSolver.Services
          Dictionary<Address, Dictionary<Address, double>> durationMatrix = ParseAdjacencyMatrixToDurationMatrix(adjacencyMatrix, addresses);
 
          // Create Solver and start calculation
-         ITspSolver tspSolver = new TspSolver_DynamicProgramming();
+         ITspSolver tspSolver = new TspSolver_PheromoneAlgImplementation();
          return tspSolver.CalculateShortestRoute(distanceMatrix, durationMatrix, addresses, depotAddress);
       }
 

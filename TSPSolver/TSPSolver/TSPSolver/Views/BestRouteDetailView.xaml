@@ -14,17 +14,26 @@
   <StackLayout Margin="12" >
     <WebView x:Name="MapsWebView"
              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-    <StackLayout Margin="12" Padding="12"
-                 BackgroundColor="{x:Static tspSolver:Constants.Blue}">
-      <Label Text="Best Route"
-             FontSize="Medium" FontAttributes="Bold"
-             
-             Style="{StaticResource RouteLabelStyle}"/>
-      <Label Text="{Binding OrderedAddressesString, StringFormat='{0}'}"
-             Style="{StaticResource RouteLabelStyle}"/>
-      <Label Text="{Binding Distance, StringFormat='Distance: {0} meters.'}"
-             FontSize="Medium"
-             Style="{StaticResource RouteLabelStyle}"/>
-    </StackLayout>
+    <!--Bottom summary of optimizations-->
+    <ScrollView Orientation="Horizontal">
+      <StackLayout x:Name="OptimizationLogStackLayout" 
+                   Orientation="Horizontal"
+                   HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
+                   Spacing="16"
+                   Margin="0, 4, 0, 4">
+        <StackLayout Margin="0,12,0,12" Padding="12"
+                     BackgroundColor="{x:Static tspSolver:Constants.Blue}"
+                     HorizontalOptions="Start">
+          <Label Text="Best Route"
+                 FontSize="Medium" FontAttributes="Bold"
+                 Style="{StaticResource RouteLabelStyle}"/>
+          <Label Text="{Binding OrderedAddressesString, StringFormat='{0}'}"
+                 Style="{StaticResource RouteLabelStyle}"/>
+          <Label Text="{Binding Distance, StringFormat='Distance: {0} meters.'}"
+                 FontSize="Medium"
+                 Style="{StaticResource RouteLabelStyle}"/>
+        </StackLayout>
+      </StackLayout>
+    </ScrollView>
   </StackLayout>
 </ContentPage>

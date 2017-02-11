@@ -1,9 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using Newtonsoft.Json;
-using TSPSolver.Interfaces;
 using TSPSolver.Model;
 using TSPSolver.ViewModels;
 using Xamarin.Forms;
@@ -13,15 +12,22 @@ namespace TSPSolver.Views
    public partial class BestRouteDetailView : ContentPage
    {
       private BestRouteDetailViewModel _viewModel;
-      public BestRouteDetailView(Route bestRoute)
+      public BestRouteDetailView(Route bestRoute, AntColonyOptimizationLog acoLog)
       {
          InitializeComponent();
          BindingContext = _viewModel = new BestRouteDetailViewModel(this, bestRoute);
          CreateMap(bestRoute);
          
          var json = JsonConvert.SerializeObject(bestRoute);
-         MapsWebView.Eval($"initMap({json})");
-      } 
+
+         acoLog = new AntColonyOptimizationLog() {EvaluationDuration = TimeSpan.FromMilliseconds(1234), Iterations = new List<Iteration>() {new Iteration() },BestRoute = new Route() {Distance = 123} };
+         if (acoLog != null)
+         {
+            CreateAcoLogStackLayout(acoLog);
+         }
+      }
+
+      
 
       private void CreateMap(Route bestRoute)
       {
@@ -48,6 +54,39 @@ namespace TSPSolver.Views
          };
 
          MapsWebView.Source = html;
+      }
+
+      private void CreateAcoLogStackLayout(AntColonyOptimizationLog acoLog)
+      {
+         StackLayout acoLogLayout = new StackLayout();
+         acoLogLayout.BackgroundColor = Constants.DarkOrange;
+         acoLogLayout.HorizontalOptions = LayoutOptions.Start;
+         acoLogLayout.Margin = new Thickness(0, 12);
+         acoLogLayout.Padding = new Thickness(12);
+         acoLogLayout.Children.Add(new Label()
+         {
+            Text = $"Ant-Colony-Optimization",
+            Font = Font.SystemFontOfSize(NamedSize.Medium),
+            FontAttributes = FontAttributes.Bold,
+            TextColor = Color.White
+         });
+         acoLogLayout.Children.Add(new Label()
+         {
+            Text = $"Time spent to find Solution: \t{acoLog.EvaluationDuration:fff} milliseconds",
+            TextColor = Color.White
+         });
+         acoLogLayout.Children.Add(new Label()
+         {
+            Text = $"Number of iterations: \t\t{acoLog.Iterations.Count}",
+            TextColor = Color.White
+         });
+         acoLogLayout.Children.Add(new Label()
+         {
+            Text = $"Distance of best route found: \t{acoLog.BestRoute.Distance} meters",
+            TextColor = Color.White
+         });
+
+         OptimizationLogStackLayout.Children.Add(acoLogLayout);
       }
    }
 }

@@ -156,22 +156,28 @@
     <BundleResource Include="Resources\Add_Blue_85.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Location_LightBlue_128.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\Delete_Red_85.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\Edit_Blue_85.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\Depot_Inactive_85.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <BundleResource Include="Resources\Depot_Active_85.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BundleResource Include="Resources\ImportCsv_White_128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Delete_Red_52.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Edit_Blue_52.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Depot_Active_52.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Depot_Inactive_52.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Location_White_128.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\StartOptimization_White_128.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

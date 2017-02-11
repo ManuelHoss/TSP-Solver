@@ -127,16 +127,17 @@
     <None Include="TSPSolver.Windows_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Add_Blue_85.png" />
     <Content Include="Assets\Logo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
-    <Content Include="Delete_Red_85.png" />
-    <Content Include="Depot_Active_85.png" />
-    <Content Include="Depot_Inactive_85.png" />
-    <Content Include="Edit_Blue_85.png" />
+    <Content Include="Delete_Red_52.png" />
+    <Content Include="Depot_Active_52.png" />
+    <Content Include="Depot_Inactive_52.png" />
+    <Content Include="Edit_Blue_52.png" />
     <Content Include="ImportCsv_White_128.png" />
+    <Content Include="Location_White_128.png" />
+    <Content Include="StartOptimization_White_128.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

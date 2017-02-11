@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 
 namespace TSPSolver.Model
 {
@@ -9,6 +8,10 @@ namespace TSPSolver.Model
       public List<Iteration> Iterations { get; set; }
 
       public double DistanceOfShortestRoute { get; set; }
+
+      public Route BestRoute { get; set; }
+
+      public TimeSpan EvaluationDuration { get; set; }
    }
 
    public class Iteration
