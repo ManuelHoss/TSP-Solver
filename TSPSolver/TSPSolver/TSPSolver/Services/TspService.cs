@@ -9,15 +9,12 @@ namespace TSPSolver.Services
 {
    public class TspService
    {
-      #region Fields
-      
-
-      #endregion //Fields
+      public AntColonyOptimizationLog AntColonyOptimizationLog { get; set; }
       
       public TspService()
       {
       }
-
+      
       public Route CalculateBestRoute(List<Address> addresses, Address depotAddress)
       {
          AdjacencyMatrix adjacencyMatrix = GetDistancesFromGoogleApi(addresses);
@@ -25,8 +22,10 @@ namespace TSPSolver.Services
          Dictionary<Address, Dictionary<Address, double>> durationMatrix = ParseAdjacencyMatrixToDurationMatrix(adjacencyMatrix, addresses);
 
          // Create Solver and start calculation
-         ITspSolver tspSolver = new TspSolver_PheromoneAlgImplementation();
-         return tspSolver.CalculateShortestRoute(distanceMatrix, durationMatrix, addresses, depotAddress);
+         TspSolver_PheromoneAlgImplementation aco_tspSolver = new TspSolver_PheromoneAlgImplementation();
+         Route bestRoute = aco_tspSolver.CalculateShortestRoute(distanceMatrix, durationMatrix, addresses, depotAddress);
+         AntColonyOptimizationLog = aco_tspSolver.Log;
+         return bestRoute;
       }
 
       private AdjacencyMatrix GetDistancesFromGoogleApi(List<Address> addresses)

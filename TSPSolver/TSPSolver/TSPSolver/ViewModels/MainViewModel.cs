@@ -113,7 +113,7 @@ namespace TSPSolver.ViewModels
                          {
                             _tspService = new TspService();
                             Route bestRoute = _tspService.CalculateBestRoute(AddressList.ToList(), AddressList.FirstOrDefault(address => address.IsDepotAddress));
-                            Page.Navigation.PushAsync(new BestRouteDetailView(bestRoute, null));
+                            Page.Navigation.PushAsync(new BestRouteDetailView(bestRoute, _tspService.AntColonyOptimizationLog));
                          }
                       }));
          }

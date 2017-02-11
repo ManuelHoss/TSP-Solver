@@ -122,6 +122,7 @@
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="Settings_White_128.png" />
     <Content Include="StartOptimization_White_128.png" />
   </ItemGroup>
   <ItemGroup>

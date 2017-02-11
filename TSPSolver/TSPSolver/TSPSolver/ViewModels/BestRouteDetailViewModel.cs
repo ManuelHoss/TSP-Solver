@@ -41,7 +41,7 @@ namespace TSPSolver.ViewModels
             }
             else
             {
-               routeString.Append($"\t--> {address.FormattedAddress}\n");
+               routeString.Append($"\t> {address.FormattedAddress}\n");
             }
          }
 

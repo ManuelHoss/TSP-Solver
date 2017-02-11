@@ -137,6 +137,7 @@
     <Content Include="Edit_Blue_52.png" />
     <Content Include="ImportCsv_White_128.png" />
     <Content Include="Location_White_128.png" />
+    <Content Include="Settings_White_128.png" />
     <Content Include="StartOptimization_White_128.png" />
   </ItemGroup>
   <ItemGroup>

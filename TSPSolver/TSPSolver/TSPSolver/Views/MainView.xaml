@@ -55,6 +55,9 @@
             BackgroundColor="{x:Static local:Constants.Blue}"
             HeightRequest="120" WidthRequest="120"
             Clicked="ReadCsvButton_OnClicked" />
+      <Button Image="Settings_White_128.png"
+            BackgroundColor="{x:Static local:Constants.Blue}"
+            HeightRequest="120" WidthRequest="120"/>
       <Button Image="StartOptimization_White_128.png"
             BackgroundColor="{x:Static local:Constants.Blue}"
             HeightRequest="120" WidthRequest="120"
@@ -71,7 +74,7 @@
         <DataTemplate>
           <ViewCell>
             <StackLayout BackgroundColor="#555555"
-                         Padding="16" Margin="2"
+                         Padding="8" Margin="2"
                          Orientation="Horizontal">
               <Image Source="Location_White_128.png"
                      Aspect="Fill"

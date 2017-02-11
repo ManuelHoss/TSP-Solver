@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:tspSolver="clr-namespace:TSPSolver;assembly=TSPSolver"
              x:Class="TSPSolver.Views.BestRouteDetailView"
-             Title="Best route">
+             Title="OPTIMIZATION RESULT">
   <ContentPage.Resources>
     <ResourceDictionary>
       <Style x:Key="RouteLabelStyle" TargetType="Label">
@@ -24,13 +24,15 @@
         <StackLayout Margin="0,12,0,12" Padding="12"
                      BackgroundColor="{x:Static tspSolver:Constants.Blue}"
                      HorizontalOptions="Start">
-          <Label Text="Best Route"
-                 FontSize="Medium" FontAttributes="Bold"
+          <Label Text="BEST ROUTE"
+                 FontSize="Large" FontAttributes="Bold"
+                 HorizontalOptions="CenterAndExpand"
                  Style="{StaticResource RouteLabelStyle}"/>
           <Label Text="{Binding OrderedAddressesString, StringFormat='{0}'}"
+                 FontSize="Small"
                  Style="{StaticResource RouteLabelStyle}"/>
           <Label Text="{Binding Distance, StringFormat='Distance: {0} meters.'}"
-                 FontSize="Medium"
+                 FontSize="Small" FontAttributes="Bold"
                  Style="{StaticResource RouteLabelStyle}"/>
         </StackLayout>
       </StackLayout>

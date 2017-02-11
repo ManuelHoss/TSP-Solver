@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TSPSolver.CSV_Import;
@@ -63,8 +64,13 @@ namespace TSPSolver.Views
 
       private async void ReadCsvButton_OnClicked(object sender, EventArgs e)
       {
-         _viewModel.AddressList =  new ObservableCollection<Address>(await CsvHelper.ReadCsv());
-         AddressListView.ItemsSource = _viewModel.AddressList;
+         List<Address> inputListView = new List<Address>(await CsvHelper.ReadCsv());
+
+         if (inputListView.Any())
+         {
+            _viewModel.AddressList = new ObservableCollection<Address>(inputListView);
+            AddressListView.ItemsSource = _viewModel.AddressList;
+         }
       }
 
       private void AddressListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)

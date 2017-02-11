@@ -20,15 +20,12 @@ namespace TSPSolver.Views
          
          var json = JsonConvert.SerializeObject(bestRoute);
 
-         acoLog = new AntColonyOptimizationLog() {EvaluationDuration = TimeSpan.FromMilliseconds(1234), Iterations = new List<Iteration>() {new Iteration() },BestRoute = new Route() {Distance = 123} };
          if (acoLog != null)
          {
             CreateAcoLogStackLayout(acoLog);
          }
       }
-
       
-
       private void CreateMap(Route bestRoute)
       {
          var assembly = typeof(BestRouteDetailView).GetTypeInfo().Assembly;
@@ -60,19 +57,21 @@ namespace TSPSolver.Views
       {
          StackLayout acoLogLayout = new StackLayout();
          acoLogLayout.BackgroundColor = Constants.DarkOrange;
-         acoLogLayout.HorizontalOptions = LayoutOptions.Start;
+         acoLogLayout.HorizontalOptions = LayoutOptions.StartAndExpand;
+         acoLogLayout.VerticalOptions = LayoutOptions.FillAndExpand;
          acoLogLayout.Margin = new Thickness(0, 12);
          acoLogLayout.Padding = new Thickness(12);
          acoLogLayout.Children.Add(new Label()
          {
-            Text = $"Ant-Colony-Optimization",
-            Font = Font.SystemFontOfSize(NamedSize.Medium),
+            Text = $"ANT-COLONY-OPTIMIZATION",
+            Font = Font.SystemFontOfSize(NamedSize.Large),
+            HorizontalOptions = LayoutOptions.CenterAndExpand,
             FontAttributes = FontAttributes.Bold,
             TextColor = Color.White
          });
          acoLogLayout.Children.Add(new Label()
          {
-            Text = $"Time spent to find Solution: \t{acoLog.EvaluationDuration:fff} milliseconds",
+            Text = $"Time spent to find Solution: \t{acoLog.EvaluationDuration} milliseconds",
             TextColor = Color.White
          });
          acoLogLayout.Children.Add(new Label()
@@ -82,7 +81,10 @@ namespace TSPSolver.Views
          });
          acoLogLayout.Children.Add(new Label()
          {
-            Text = $"Distance of best route found: \t{acoLog.BestRoute.Distance} meters",
+            Text = $"Shortest route distance: \t{acoLog.BestRoute.Distance} meters",
+            VerticalOptions = LayoutOptions.EndAndExpand,
+            Font = Font.SystemFontOfSize(NamedSize.Small),
+            FontAttributes = FontAttributes.Bold,
             TextColor = Color.White
          });
 
