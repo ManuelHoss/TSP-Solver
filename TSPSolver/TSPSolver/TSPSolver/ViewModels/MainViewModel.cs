@@ -16,6 +16,7 @@ namespace TSPSolver.ViewModels
       private string _number;
       private string _zip;
       private string _city;
+      private string _inputAddress;
 
       private TspService _tspService;
 
@@ -35,36 +36,18 @@ namespace TSPSolver.ViewModels
 
       #region Properties
 
+      public string InputAddress
+      {
+         get { return _inputAddress; }
+         set { SetProperty(ref _inputAddress, value); }
+      }
+
       public ObservableCollection<Address> AddressList
       {
          get { return _addressList; }
          set { SetProperty(ref _addressList, value); }
       }
-
-      public string Street
-      {
-         get { return _street; }
-         set { SetProperty(ref _street, value); }
-      }
-
-      public string Number
-      {
-         get { return _number; }
-         set { SetProperty(ref _number, value); }
-      }
-
-      public string Zip
-      {
-         get { return _zip; }
-         set { SetProperty(ref _zip, value); }
-      }
-
-      public string City
-      {
-         get { return _city; }
-         set { SetProperty(ref _city, value); }
-      }
-
+      
       #endregion //Properties
 
       #region Commands
@@ -83,27 +66,20 @@ namespace TSPSolver.ViewModels
                       new Command(() =>
                       {
                          //Case of editing a existent Entry
-                         if (!String.IsNullOrEmpty(_street)
-                             & !String.IsNullOrEmpty(_number)
-                             & !String.IsNullOrEmpty(_zip)
-                             & !String.IsNullOrEmpty(_city))
+                         if (!String.IsNullOrEmpty(_inputAddress))
                          {
-                            Address addressToAdd = new Address() {Street = _street, Number = _number, Zip = _zip, City = _city};
-                            GoogleMapsApiAddressResult validationResult = GoogleProvider.ValidateAddress(addressToAdd.ToString()).Result;
+
+                            GoogleMapsApiAddressResult validationResult = GoogleProvider.ValidateAddress(InputAddress).Result;
 
                             if (validationResult.status == "OK")
                             {
-                               addressToAdd.Street = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("route")).long_name;
-                               addressToAdd.Number = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("street_number")).long_name;
-                               addressToAdd.City = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("locality")).long_name;
-                               addressToAdd.Zip = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("postal_code")).long_name;
-                               addressToAdd.FormattedAddress = validationResult.results[0].formatted_address;
-                               _addressList.Add(addressToAdd);
-                               // Cleanup for next entry
-                               Street = "";
-                               Number = "";
-                               Zip = "";
-                               City = "";
+                               Address address = new Address();
+                               address.Street = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("route")).long_name;
+                               address.Number = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("street_number")).long_name;
+                               address.City = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("locality")).long_name;
+                               address.Zip = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("postal_code")).long_name;
+                               address.FormattedAddress = validationResult.results[0].formatted_address;
+                               AddressList.Add(address);
                             }
                             else
                             {
@@ -137,7 +113,7 @@ namespace TSPSolver.ViewModels
                          {
                             _tspService = new TspService();
                             Route bestRoute = _tspService.CalculateBestRoute(AddressList.ToList(), AddressList.FirstOrDefault(address => address.IsDepotAddress));
-                            Page.Navigation.PushAsync(new BestRouteTabbedView(bestRoute));
+                            Page.Navigation.PushAsync(new BestRouteDetailView(bestRoute, _tspService.AntColonyOptimizationLog));
                          }
                       }));
          }

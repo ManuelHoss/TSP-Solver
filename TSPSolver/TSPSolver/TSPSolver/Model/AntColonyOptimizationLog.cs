@@ -1,20 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using Xamarin.Forms;
 
 namespace TSPSolver.Model
 {
    public class AntColonyOptimizationLog
    {
-      public List<Iteration> Iterations { get; set; }
+      public List<Iteration> Iterations { get; set; } = new List<Iteration>();
 
       public double DistanceOfShortestRoute { get; set; }
+
+      public Route BestRoute { get; set; }
+
+      public long EvaluationDuration { get; set; }
    }
 
    public class Iteration
    {
       public Route BestRoute { get; set; }
-      public TimeSpan EvaluationDuration { get; set; }
-   
+      public long EvaluationDuration { get; set; }
    }
 }

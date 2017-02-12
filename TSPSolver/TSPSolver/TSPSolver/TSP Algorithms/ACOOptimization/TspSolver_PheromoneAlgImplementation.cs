@@ -8,22 +8,25 @@ using TSPSolver.Model;
 
 namespace TSPSolver.TSP_Algorithms.ACOOptimization
 {
-   public class TspSolver_PheromoneAlgImplementation :ITspSolver
+   public class TspSolver_PheromoneAlgImplementation : ITspSolver
    {
       public const int NumberOfAnts = 5;
       public const int Iterations = 200;
       public const double PheromoneRelevance = 0.3;
       public const double DistanceRelevance = 0.3;
       public const double EvapourationRate = 0.001;
-      
+
+      public AntColonyOptimizationLog Log { get; private set; } = new AntColonyOptimizationLog();
+
       private List<Ant> _ants = new List<Ant>();
       private Dictionary<Address, Dictionary<Address, double>> _distanceMatrix;
       private Dictionary<Address, Dictionary<Address, double>> _durationMatrix;
       private Dictionary<Address, Dictionary<Address, double>> _pheromoneMatrix;
       private Route _bestRoute = new Route() { Distance = Double.MaxValue };
-
+      
       public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distances, Dictionary<Address, Dictionary<Address, double>> durations, List<Address> addresses, Address depotAddress)
       {
+         Log = new AntColonyOptimizationLog();
          _distanceMatrix = distances;
          _durationMatrix = durations;
          // Initialize pheromone matrix with 1
@@ -76,8 +79,10 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
 
       public void StartOptimization()
       {
+         var acoStopwatch = Stopwatch.StartNew();
          for (int i = 0; i < Iterations; i++)
          {
+            var iterationStopWatch = Stopwatch.StartNew();
             foreach (var ant in _ants)
             {
                Route route = ant.FindRoute();
@@ -88,7 +93,11 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
                Debug.WriteLine($"Best route from ant {ant}: {ant.BestRoute} - with length: {ant.BestRoute.Distance}");
                UpdatePheromoneMatrix(route);
             }
+            Log.Iterations.Add(new Iteration() { BestRoute = BestRoute, EvaluationDuration = iterationStopWatch.ElapsedMilliseconds});
          }
+         acoStopwatch.Stop();
+         Log.EvaluationDuration = acoStopwatch.ElapsedMilliseconds;
+         Log.BestRoute = BestRoute;
       }
 
       private void UpdatePheromoneMatrix(Route route)

@@ -19,29 +19,31 @@ namespace TSPSolver.CSV_Import
          List<Address> importAddresses = new List<Address>();
 
          FileData fileData = await CrossFilePicker.Current.PickFile();
-         Stream stream = new MemoryStream(fileData.DataArray);
-         
-         using (var reader = new StreamReader(stream, Encoding.UTF8))
+         if (fileData != null)
          {
-            
-            while (!reader.EndOfStream)
+            Stream stream = new MemoryStream(fileData.DataArray);
+            using (var reader = new StreamReader(stream, Encoding.UTF8))
             {
-               var line = reader.ReadLine();
-               var values = line.Split(',');
 
-               if (values.Length >= 4)
+               while (!reader.EndOfStream)
                {
-                  importAddresses.Add(new Address()
+                  var line = reader.ReadLine();
+                  var values = line.Split(',');
+
+                  if (values.Length >= 4)
                   {
-                     Street = values[0],
-                     Number = values[1],
-                     Zip = values[2],
-                     City = values[3],
-                  });
+                     importAddresses.Add(new Address()
+                     {
+                        Street = values[0],
+                        Number = values[1],
+                        Zip = values[2],
+                        City = values[3],
+                     });
+                  }
                }
             }
          }
-
+         
          foreach (var address in importAddresses)
          {
             GoogleMapsApiAddressResult validationResult = GoogleProvider.ValidateAddress(address.ToString()).Result;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using TSPSolver.CSV_Import;
@@ -51,22 +52,30 @@ namespace TSPSolver.Views
          if (_depotButton != null)
          {
             // Unselect old depot address
-            _depotButton.Image = "Depot_Inactive_85.png";
+            _depotButton.Image = "Depot_Inactive_52.png";
             _viewModel.AddressList.FirstOrDefault(item => item.Id.ToString() == _depotButton.CommandParameter.ToString()).IsDepotAddress = false;
          }
          
          // Select new depot address
          _depotButton = (Button)sender;
-         _depotButton.Image = "Depot_Active_85.png";
+         _depotButton.Image = "Depot_Active_52.png";
          _viewModel.AddressList.FirstOrDefault(item => item.Id.ToString() == _depotButton.CommandParameter.ToString()).IsDepotAddress = true;
       }
 
       private async void ReadCsvButton_OnClicked(object sender, EventArgs e)
       {
-         _viewModel.AddressList =  new ObservableCollection<Address>(await CsvHelper.ReadCsv());
-         AddressListView.ItemsSource = _viewModel.AddressList;
+         List<Address> inputListView = new List<Address>(await CsvHelper.ReadCsv());
+
+         if (inputListView.Any())
+         {
+            _viewModel.AddressList = new ObservableCollection<Address>(inputListView);
+            AddressListView.ItemsSource = _viewModel.AddressList;
+         }
+      }
+
+      private void AddressListView_OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+      {
+         AddressListView.SelectedItem = null;
       }
    }
-
-
 }
