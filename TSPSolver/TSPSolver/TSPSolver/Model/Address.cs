@@ -15,6 +15,7 @@ namespace TSPSolver.Model
       // Timewindows
       public DateTime TimeWindowsStart { get; set; }
       public DateTime TimeWindowsEnd { get; set; }
+      public TimeSpan ArrivalTime { get; set; }
 
       public override string ToString()
       {

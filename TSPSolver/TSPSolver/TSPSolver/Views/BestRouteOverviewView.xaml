@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:tspSolver="clr-namespace:TSPSolver;assembly=TSPSolver"
+             x:Class="TSPSolver.Views.BestRouteOverviewView"
+             Title="OPTIMIZATION RESULT">
+  <ContentPage.Resources>
+    <ResourceDictionary>
+      <Style x:Key="RouteLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="White"/>
+      </Style>
+    </ResourceDictionary>
+  </ContentPage.Resources>
+  <StackLayout Margin="12" >
+    <WebView x:Name="MapsWebView"
+             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+    <!--Bottom summary of optimizations-->
+    <ScrollView Orientation="Horizontal">
+      <StackLayout x:Name="OptimizationLogStackLayout"
+                   Orientation="Horizontal"
+                   HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
+                   Spacing="16"
+                   Margin="0, 4, 0, 4">
+        <StackLayout Margin="0,12,0,12" Padding="12"
+                     BackgroundColor="{x:Static tspSolver:Constants.Blue}"
+                     HorizontalOptions="Start">
+          <StackLayout.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding OnBestRouteTappedCommand}"/>
+          </StackLayout.GestureRecognizers>
+          <Label Text="BEST ROUTE"
+                 FontSize="Large" FontAttributes="Bold"
+                 HorizontalOptions="CenterAndExpand"
+                 Style="{StaticResource RouteLabelStyle}"/>
+          <Label Text="{Binding OrderedAddressesString, StringFormat='{0}'}"
+                 FontSize="Small"
+                 Style="{StaticResource RouteLabelStyle}"/>
+          <Label Text="{Binding Distance, StringFormat='Distance: {0} meters.'}"
+                 FontSize="Small" FontAttributes="Bold"
+                 Style="{StaticResource RouteLabelStyle}"/>
+        </StackLayout>
+      </StackLayout>
+    </ScrollView>
+  </StackLayout>
+</ContentPage>

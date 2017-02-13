@@ -23,6 +23,11 @@
         <Setter Property="TextColor" Value="{x:Static local:Constants.LightBlue}" />
         <Setter Property="HeightRequest" Value="45" />
       </Style>
+      <Style x:Key="ListViewItemIconStyle" TargetType="Entry">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+        <Setter Property="VerticalOptions" Value="Center" />
+      </Style>
     </ResourceDictionary>
   </ContentPage.Resources>
 
@@ -80,7 +85,7 @@
                      Aspect="Fill"
                      HeightRequest="60" WidthRequest="60"
                      VerticalOptions="Center"
-                     Margin="0, 0, 4 , 0"/>
+                     Margin="0, 0, 4 , 0" />
               <StackLayout >
                 <StackLayout Orientation="Horizontal">
                   <Label Text="{Binding Street, StringFormat='{0}, '}"
@@ -97,16 +102,17 @@
               </StackLayout>
               <StackLayout HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"
                            Orientation="Horizontal">
-                <Button x:Name="depotButton" Image="Depot_Inactive_52.png"
-                        HorizontalOptions="EndAndExpand" VerticalOptions="Center"
+                <Button x:Name="depotButton" 
+                        Image="Depot_Inactive_52.png"
+                        Style="{StaticResource ListViewItemIconStyle}"
                         CommandParameter="{Binding Id}"
                         Clicked="SetDepotButton_OnClicked"/>
                 <Button Image="Edit_Blue_52.png"
-                        HorizontalOptions="EndAndExpand" VerticalOptions="Center"
+                        Style="{StaticResource ListViewItemIconStyle}"
                         CommandParameter="{Binding Id}"
                         Clicked="EditButton_OnClicked"/>
                 <Button Image="Delete_Red_52.png"
-                        HorizontalOptions="EndAndExpand" VerticalOptions="Center"
+                        Style="{StaticResource ListViewItemIconStyle}"
                         CommandParameter="{Binding Id}"
                         Clicked="DeleteButton_OnClicked"/>
               </StackLayout>

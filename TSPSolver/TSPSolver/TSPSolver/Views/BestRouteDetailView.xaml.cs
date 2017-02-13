@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using Newtonsoft.Json;
+using System.ComponentModel;
+using System.Globalization;
 using TSPSolver.Model;
 using TSPSolver.ViewModels;
 using Xamarin.Forms;
@@ -12,83 +11,31 @@ namespace TSPSolver.Views
    public partial class BestRouteDetailView : ContentPage
    {
       private BestRouteDetailViewModel _viewModel;
-      public BestRouteDetailView(Route bestRoute, AntColonyOptimizationLog acoLog)
+
+      public BestRouteDetailView(Route bestRoute)
       {
-         InitializeComponent();
          BindingContext = _viewModel = new BestRouteDetailViewModel(this, bestRoute);
-         CreateMap(bestRoute);
+         InitializeComponent();
+         _viewModel.StartTimeOfRoute = DateTime.Now.TimeOfDay;
+         CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("de-DE");
+         StartTimePicker.Format = CultureInfo.DefaultThreadCurrentUICulture.DateTimeFormat.ShortTimePattern;
          
-         var json = JsonConvert.SerializeObject(bestRoute);
-
-         if (acoLog != null)
-         {
-            CreateAcoLogStackLayout(acoLog);
-         }
-      }
-      
-      private void CreateMap(Route bestRoute)
-      {
-         var assembly = typeof(BestRouteDetailView).GetTypeInfo().Assembly;
-         Stream stream = assembly.GetManifestResourceStream("TSPSolver.local.html");
-         StreamReader reader = new StreamReader(stream);
-         string htmlString = reader.ReadToEnd();
-         
-         int pos = htmlString.IndexOf("<select id=\"start\">\r\n") + 25;
-         htmlString = htmlString.Insert(pos, $"<option value=\"{bestRoute.Addresses[0].FormattedAddress}\">{bestRoute.Addresses[0].FormattedAddress}</option>\r\n");
-
-         for (int i = bestRoute.Addresses.Count - 1; i > 1; i--)
-         {
-            pos = htmlString.IndexOf("<select multiple id=\"waypoints\">\r\n") + 38;
-            htmlString = htmlString.Insert(pos, $"<option value=\"{bestRoute.Addresses[i].FormattedAddress}\">{bestRoute.Addresses[i].FormattedAddress}</option>\r\n");
-         }
-
-         pos = htmlString.IndexOf("<select id=\"end\">\r\n") + 23;
-         htmlString = htmlString.Insert(pos, $"<option value=\"{bestRoute.Addresses[0].FormattedAddress}\">{bestRoute.Addresses[0].FormattedAddress}</option>\r\n");
-
-         var html = new HtmlWebViewSource
-         {
-            Html = htmlString
-         };
-
-         MapsWebView.Source = html;
       }
 
-      private void CreateAcoLogStackLayout(AntColonyOptimizationLog acoLog)
+      private void StartTimePicker_OnPropertyChanged(object sender, PropertyChangedEventArgs e)
       {
-         StackLayout acoLogLayout = new StackLayout();
-         acoLogLayout.BackgroundColor = Constants.DarkOrange;
-         acoLogLayout.HorizontalOptions = LayoutOptions.StartAndExpand;
-         acoLogLayout.VerticalOptions = LayoutOptions.FillAndExpand;
-         acoLogLayout.Margin = new Thickness(0, 12);
-         acoLogLayout.Padding = new Thickness(12);
-         acoLogLayout.Children.Add(new Label()
+         if (StartTimePicker != null)
          {
-            Text = $"ANT-COLONY-OPTIMIZATION",
-            Font = Font.SystemFontOfSize(NamedSize.Large),
-            HorizontalOptions = LayoutOptions.CenterAndExpand,
-            FontAttributes = FontAttributes.Bold,
-            TextColor = Color.White
-         });
-         acoLogLayout.Children.Add(new Label()
-         {
-            Text = $"Time spent to find Solution: \t{acoLog.EvaluationDuration} milliseconds",
-            TextColor = Color.White
-         });
-         acoLogLayout.Children.Add(new Label()
-         {
-            Text = $"Number of iterations: \t\t{acoLog.Iterations.Count}",
-            TextColor = Color.White
-         });
-         acoLogLayout.Children.Add(new Label()
-         {
-            Text = $"Shortest route distance: \t{acoLog.BestRoute.Distance} meters",
-            VerticalOptions = LayoutOptions.EndAndExpand,
-            Font = Font.SystemFontOfSize(NamedSize.Small),
-            FontAttributes = FontAttributes.Bold,
-            TextColor = Color.White
-         });
-
-         OptimizationLogStackLayout.Children.Add(acoLogLayout);
+            _viewModel.StartTimeOfRoute = StartTimePicker.Time;
+            TimeSpan tmpTimeSpan = _viewModel.StartTimeOfRoute;
+            _viewModel.Addresses[0].ArrivalTime = tmpTimeSpan;
+            for (int i = 0; i < _viewModel.Addresses.Count - 1; i++)
+            {
+               tmpTimeSpan = tmpTimeSpan.Add(new TimeSpan(0, 0, (int)_viewModel.DurationMatrix[_viewModel.Addresses[i]][_viewModel.Addresses[i + 1]]));
+               _viewModel.Addresses[i+1].ArrivalTime = tmpTimeSpan;
+            }
+            AddressListView.ItemsSource = _viewModel.Addresses;
+         }
       }
    }
 }

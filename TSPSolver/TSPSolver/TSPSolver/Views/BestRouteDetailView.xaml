@@ -2,40 +2,59 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:tspSolver="clr-namespace:TSPSolver;assembly=TSPSolver"
-             x:Class="TSPSolver.Views.BestRouteDetailView"
-             Title="OPTIMIZATION RESULT">
+             x:Class="TSPSolver.Views.BestRouteDetailView">
   <ContentPage.Resources>
     <ResourceDictionary>
-      <Style x:Key="RouteLabelStyle" TargetType="Label">
-        <Setter Property="TextColor" Value="White"/>
+      <Style x:Key="AddressLayoutStyle" TargetType="StackLayout">
+        <Setter Property="BackgroundColor" Value="{x:Static tspSolver:Constants.Blue}" />
+        <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+      </Style>
+      <Style x:Key="AddressLabelStyle" TargetType="Label">
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontSize" Value="Medium" />
+        <Setter Property="Margin" Value="12" />
       </Style>
     </ResourceDictionary>
   </ContentPage.Resources>
-  <StackLayout Margin="12" >
-    <WebView x:Name="MapsWebView"
-             HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
-    <!--Bottom summary of optimizations-->
-    <ScrollView Orientation="Horizontal">
-      <StackLayout x:Name="OptimizationLogStackLayout" 
-                   Orientation="Horizontal"
-                   HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"
-                   Spacing="16"
-                   Margin="0, 4, 0, 4">
-        <StackLayout Margin="0,12,0,12" Padding="12"
-                     BackgroundColor="{x:Static tspSolver:Constants.Blue}"
-                     HorizontalOptions="Start">
-          <Label Text="BEST ROUTE"
-                 FontSize="Large" FontAttributes="Bold"
-                 HorizontalOptions="CenterAndExpand"
-                 Style="{StaticResource RouteLabelStyle}"/>
-          <Label Text="{Binding OrderedAddressesString, StringFormat='{0}'}"
-                 FontSize="Small"
-                 Style="{StaticResource RouteLabelStyle}"/>
-          <Label Text="{Binding Distance, StringFormat='Distance: {0} meters.'}"
-                 FontSize="Small" FontAttributes="Bold"
-                 Style="{StaticResource RouteLabelStyle}"/>
-        </StackLayout>
-      </StackLayout>
-    </ScrollView>
-  </StackLayout>
+  <!--TODO
+      - Route anzeigen (Städte nacheinander mit Zeitpunkt aus Zeitplan.)
+      - Startzeit veränderbar -> Folgezeitpunkte verändern sich dynamisch mit.-->
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+    </Grid.RowDefinitions>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+    <TimePicker x:Name="StartTimePicker"
+                HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                Time="{Binding StartTimeOfRoute, Mode=TwoWay}"
+                PropertyChanged="StartTimePicker_OnPropertyChanged"/>
+    <ListView Grid.Row="1" Grid.Column="0"
+              x:Name="AddressListView"
+              Margin="12"
+              HasUnevenRows="True"
+              ItemsSource="{Binding Addresses, Mode=TwoWay}">
+      <ListView.ItemTemplate>
+        <DataTemplate>
+          <ViewCell>
+            <StackLayout Padding="12"
+                         BackgroundColor="{x:Static tspSolver:Constants.Blue}"
+                         Orientation="Horizontal">
+              <Label Text="{Binding FormattedAddress}"
+                     HorizontalOptions="Start" VerticalOptions="CenterAndExpand"
+                     TextColor="White"
+                     FontSize="Medium"/>
+              <Label Text="{Binding ArrivalTime, StringFormat='Arrival time: {0:hh}:{0:mm} o\'clock.', Mode=TwoWay}"
+                     HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"
+                     TextColor="White"
+                     FontSize="Medium"/>
+            </StackLayout>
+          </ViewCell>
+        </DataTemplate>
+      </ListView.ItemTemplate>
+    </ListView>
+  </Grid>
 </ContentPage>

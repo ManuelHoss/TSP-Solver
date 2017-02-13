@@ -1,5 +1,8 @@
-﻿using TSPSolver.Views;
+﻿using System.Globalization;
+using Plugin.FilePicker.Abstractions;
+using TSPSolver.Views;
 using Xamarin.Forms;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace TSPSolver
 {
@@ -8,8 +11,15 @@ namespace TSPSolver
       public App()
       {
          InitializeComponent();
-
-         MainPage = new NavigationPage(new MainView());
+         
+         if (Device.OS == TargetPlatform.Android)
+         {
+            MainPage = new NavigationPage(new MainView_Mobile());
+         }
+         else
+         {
+            MainPage = new NavigationPage(new MainView());
+         }
       }
 
       protected override void OnStart()

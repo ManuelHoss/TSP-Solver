@@ -17,14 +17,22 @@ namespace TSPSolver.Services
       
       public Route CalculateBestRoute(List<Address> addresses, Address depotAddress)
       {
+         // Get distance and duration matricies from google api
          AdjacencyMatrix adjacencyMatrix = GetDistancesFromGoogleApi(addresses);
          Dictionary<Address, Dictionary<Address, double>> distanceMatrix = ParseAdjacencyMatrixToDistanceMatrix(adjacencyMatrix, addresses);
          Dictionary<Address, Dictionary<Address, double>> durationMatrix = ParseAdjacencyMatrixToDurationMatrix(adjacencyMatrix, addresses);
 
          // Create Solver and start calculation
          TspSolver_PheromoneAlgImplementation aco_tspSolver = new TspSolver_PheromoneAlgImplementation();
+
+         // Build route to return
          Route bestRoute = aco_tspSolver.CalculateShortestRoute(distanceMatrix, durationMatrix, addresses, depotAddress);
+         bestRoute.DistanceMatrix = distanceMatrix;
+         bestRoute.DurationMatrix = durationMatrix;
+
+         // Create Log object
          AntColonyOptimizationLog = aco_tspSolver.Log;
+
          return bestRoute;
       }
 

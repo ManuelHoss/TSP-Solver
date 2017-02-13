@@ -131,14 +131,21 @@
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
+    <Content Include="Delete_Red_32.png" />
     <Content Include="Delete_Red_52.png" />
+    <Content Include="Depot_Active_32.png" />
     <Content Include="Depot_Active_52.png" />
+    <Content Include="Depot_Inactive_32.png" />
     <Content Include="Depot_Inactive_52.png" />
+    <Content Include="Edit_Blue_32.png" />
     <Content Include="Edit_Blue_52.png" />
     <Content Include="ImportCsv_White_128.png" />
+    <Content Include="ImportCSV_White_80.png" />
     <Content Include="Location_White_128.png" />
+    <Content Include="Location_White_80.png" />
     <Content Include="Settings_White_128.png" />
     <Content Include="StartOptimization_White_128.png" />
+    <Content Include="StartOptimization_White_80.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

@@ -1,0 +1,130 @@
+﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:TSPSolver"
+             xmlns:system="clr-namespace:System;assembly=System.Runtime"
+             x:Class="TSPSolver.Views.MainView_Mobile">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style x:Key="AddressLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="TextColor" Value="{x:Static local:Constants.LightBlue}" />
+            </Style>
+            <Style x:Key="AddressEntyStyle" TargetType="Entry">
+                <Setter Property="FontSize" Value="20" />
+                <Setter Property="TextColor" Value="{x:Static local:Constants.Blue}" />
+            </Style>
+            <Style x:Key="ButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{x:Static local:Constants.Blue}" />
+                <Setter Property="BorderColor" Value="{x:Static local:Constants.Blue}" />
+                <Setter Property="FontSize" Value="Medium" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="TextColor" Value="{x:Static local:Constants.LightBlue}" />
+                <Setter Property="HeightRequest" Value="45" />
+            </Style>
+            <Style x:Key="MenuButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{x:Static local:Constants.Blue}" />
+                <Setter Property="BorderColor" Value="{x:Static local:Constants.Blue}" />
+                <Setter Property="FontSize" Value="Small" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="HeightRequest" Value="80" />
+                <Setter Property="WidthRequest" Value="80" />
+            </Style>
+            <Style x:Key="ListViewItemIconStyle" TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="Transparent" />
+                <Setter Property="HorizontalOptions" Value="EndAndExpand" />
+                <Setter Property="VerticalOptions" Value="Center" />
+                <Setter Property="HeightRequest" Value="32" />
+                <Setter Property="WidthRequest" Value="32" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid Margin="8">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="8*" />
+        </Grid.RowDefinitions>
+
+        <!--Top menu-->
+        <StackLayout Grid.Row="0"
+                     Orientation="Horizontal">
+            <Button Image="ImportCSV_White_80.png"
+                    Style="{StaticResource MenuButtonStyle}"
+                    Clicked="ReadCsvButton_OnClicked" />
+            <!--<Button Image="Settings_White_128.png"
+                    Style="{StaticResource MenuButtonStyle}" />-->
+            <Button Image="StartOptimization_White_80.png"
+                    Style="{StaticResource MenuButtonStyle}"
+                    Command="{Binding CalculateBestRouteCommand}" />
+        </StackLayout>
+
+        <!--Address input area-->
+        <StackLayout Grid.Row="1">
+            <Entry Placeholder="Street Number, Zip, City"
+                   Style="{StaticResource AddressEntyStyle}"
+                   Text="{Binding InputAddress, Mode=TwoWay}" />
+
+            <Button Text="Add address"
+                    Style="{StaticResource ButtonStyle}"
+                    Command="{Binding AddAddressToListCommand}" />
+        </StackLayout>
+
+        <!--Address list-->
+        <ListView Grid.Row="2"
+                  x:Name="AddressListView"
+                  HasUnevenRows="True"
+                  ItemSelected="AddressListView_OnItemSelected">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout BackgroundColor="#555555"
+                                     Padding="8" Margin="2"
+                                     Orientation="Horizontal">
+                            <!--Address incl image stacklayout-->
+                            <StackLayout Orientation="Horizontal">
+                                <Image Source="Location_White_128.png"
+                                       Aspect="Fill"
+                                       HeightRequest="30" WidthRequest="30"
+                                       VerticalOptions="Center"
+                                       Margin="0, 0, 4 , 0" />
+                                <!--Address Text stacklayout-->
+                                <StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding Street, StringFormat='{0}, '}"
+                                               Style="{StaticResource AddressLabelStyle}" />
+                                        <Label Text="{Binding Number}"
+                                               Style="{StaticResource AddressLabelStyle}" />
+                                    </StackLayout>
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding Zip, StringFormat='{0}, '}"
+                                               Style="{StaticResource AddressLabelStyle}" />
+                                        <Label Text="{Binding City}"
+                                               Style="{StaticResource AddressLabelStyle}" />
+                                    </StackLayout>
+                                </StackLayout>
+                            </StackLayout>
+                            <!--Address icons stacklayout-->
+                            <StackLayout HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"
+                                         Orientation="Horizontal">
+                                <Button x:Name="depotButton"
+                                        Image="Depot_Inactive_32.png"
+                                        Style="{StaticResource ListViewItemIconStyle}"
+                                        CommandParameter="{Binding Id}"
+                                        Clicked="SetDepotButton_OnClicked" />
+                                <Button Image="Edit_Blue_32.png"
+                                        Style="{StaticResource ListViewItemIconStyle}"
+                                        CommandParameter="{Binding Id}"
+                                        Clicked="EditButton_OnClicked" />
+                                <Button Image="Delete_Red_32.png"
+                                        Style="{StaticResource ListViewItemIconStyle}"
+                                        CommandParameter="{Binding Id}"
+                                        Clicked="DeleteButton_OnClicked" />
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentPage>
