@@ -11,6 +11,7 @@ namespace TSPSolver.ViewModels
       #region Fields
 
       internal readonly Page Page;
+      private bool _isBusy;
 
       #endregion // Fields
 
@@ -24,6 +25,16 @@ namespace TSPSolver.ViewModels
       #endregion // Constructor
 
       #region Properties
+
+      /// <summary>
+      /// Gets or sets if the view is busy.
+      /// </summary>
+      public const string IsBusyPropertyName = "IsBusy";
+      public bool IsBusy
+      {
+         get { return _isBusy; }
+         set { SetProperty(ref _isBusy, value, IsBusyPropertyName); }
+      }
 
       #endregion // Properties
 

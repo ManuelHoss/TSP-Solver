@@ -1,7 +1,6 @@
 ﻿<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:TSPSolver"
-             xmlns:system="clr-namespace:System;assembly=System.Runtime"
              x:Class="TSPSolver.Views.MainView_Mobile">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -39,12 +38,15 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid Margin="8">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="8*" />
-        </Grid.RowDefinitions>
+  <Grid Margin="8">
+      <Grid.RowDefinitions>
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
+          <RowDefinition Height="8*" />
+      </Grid.RowDefinitions>
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
 
         <!--Top menu-->
         <StackLayout Grid.Row="0"
@@ -58,7 +60,7 @@
                     Style="{StaticResource MenuButtonStyle}"
                     Command="{Binding CalculateBestRouteCommand}" />
         </StackLayout>
-
+        
         <!--Address input area-->
         <StackLayout Grid.Row="1">
             <Entry Placeholder="Street Number, Zip, City"
@@ -88,21 +90,9 @@
                                        HeightRequest="30" WidthRequest="30"
                                        VerticalOptions="Center"
                                        Margin="0, 0, 4 , 0" />
-                                <!--Address Text stacklayout-->
-                                <StackLayout>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding Street, StringFormat='{0}, '}"
-                                               Style="{StaticResource AddressLabelStyle}" />
-                                        <Label Text="{Binding Number}"
-                                               Style="{StaticResource AddressLabelStyle}" />
-                                    </StackLayout>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Label Text="{Binding Zip, StringFormat='{0}, '}"
-                                               Style="{StaticResource AddressLabelStyle}" />
-                                        <Label Text="{Binding City}"
-                                               Style="{StaticResource AddressLabelStyle}" />
-                                    </StackLayout>
-                                </StackLayout>
+                              <!--Address Text stacklayout-->
+                              <Label Text="{Binding FormattedAddress, StringFormat='{0}'}"
+                                 Style="{StaticResource AddressLabelStyle}" />
                             </StackLayout>
                             <!--Address icons stacklayout-->
                             <StackLayout HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"
@@ -126,5 +116,11 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+      <ActivityIndicator Grid.Row="0" Grid.RowSpan="3"
+                         Grid.Column="0"
+                         IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+                         Color="{x:Static local:Constants.Blue}"
+                         BackgroundColor="White" Opacity="0.8"
+                         HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" />
     </Grid>
 </ContentPage>

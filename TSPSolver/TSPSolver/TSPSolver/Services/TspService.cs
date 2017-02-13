@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using TSPSolver.Interfaces;
+using System.Threading.Tasks;
 using TSPSolver.Model;
 using TSPSolver.TSP_Algorithms.ACOOptimization;
-using TSPSolver.TSP_Algorithms.DynamicProgramming;
 
 namespace TSPSolver.Services
 {
@@ -15,7 +14,7 @@ namespace TSPSolver.Services
       {
       }
       
-      public Route CalculateBestRoute(List<Address> addresses, Address depotAddress)
+      public async Task<Route> CalculateBestRoute(List<Address> addresses, Address depotAddress)
       {
          // Get distance and duration matricies from google api
          AdjacencyMatrix adjacencyMatrix = GetDistancesFromGoogleApi(addresses);
@@ -23,15 +22,15 @@ namespace TSPSolver.Services
          Dictionary<Address, Dictionary<Address, double>> durationMatrix = ParseAdjacencyMatrixToDurationMatrix(adjacencyMatrix, addresses);
 
          // Create Solver and start calculation
-         TspSolver_PheromoneAlgImplementation aco_tspSolver = new TspSolver_PheromoneAlgImplementation();
+         TspSolver_PheromoneAlgImplementation acoTspSolver = new TspSolver_PheromoneAlgImplementation();
 
          // Build route to return
-         Route bestRoute = aco_tspSolver.CalculateShortestRoute(distanceMatrix, addresses, depotAddress);
+         Route bestRoute = acoTspSolver.CalculateShortestRoute(distanceMatrix, addresses, depotAddress);
          bestRoute.DistanceMatrix = distanceMatrix;
          bestRoute.DurationMatrix = durationMatrix;
 
          // Create Log object
-         AntColonyOptimizationLog = aco_tspSolver.Log;
+         AntColonyOptimizationLog = acoTspSolver.Log;
 
          return bestRoute;
       }

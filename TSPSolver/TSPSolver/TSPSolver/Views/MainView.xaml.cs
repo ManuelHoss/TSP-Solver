@@ -77,5 +77,10 @@ namespace TSPSolver.Views
       {
          AddressListView.SelectedItem = null;
       }
+
+      private void Entry_OnCompleted(object sender, EventArgs e)
+      {
+         _viewModel.AddAddressToListCommand.Execute(null);
+      }
    }
 }

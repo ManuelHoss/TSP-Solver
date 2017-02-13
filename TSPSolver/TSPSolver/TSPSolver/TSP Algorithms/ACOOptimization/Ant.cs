@@ -75,7 +75,7 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
          Address chosenCity = NotVisitedCities[selection.spin()];
 
          // Update DistanceMatrix
-         CurrentRoute.Distance += _tspSolver.DistanceMatrix[CurrentCity][chosenCity];
+         //CurrentRoute.Distance += _tspSolver.DistanceMatrix[CurrentCity][chosenCity];
 
          // "Move" to chosen city and remove it from NotVisitedCities
          CurrentCity = chosenCity;
@@ -90,19 +90,18 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
       /// <returns>Probability depending on pheromone situation to move to tagetCity</returns>
       private double CalculateProbabilityForCity(Address targetCity)
       {
-         double invertedDistance = 1 / _tspSolver.DistanceMatrix[CurrentCity][targetCity];
+         //double invertedDistance = 1 / _tspSolver.DistanceMatrix[CurrentCity][targetCity];
          double pheromoneIntensity = _tspSolver.PheromoneMatrix[CurrentCity][targetCity];
 
-         double numerator = Math.Pow(pheromoneIntensity, TspSolver_PheromoneAlgImplementation.PheromoneRelevance) * Math.Pow(invertedDistance, TspSolver_PheromoneAlgImplementation.DistanceRelevance);
+         //double numerator = Math.Pow(pheromoneIntensity, TspSolver_PheromoneAlgImplementation.PheromoneRelevance) * Math.Pow(invertedDistance, TspSolver_PheromoneAlgImplementation.DistanceRelevance);
 
          double denominator = 0;
          foreach (var notVisitedCity in NotVisitedCities)
          {
-            denominator += Math.Pow(1 / _tspSolver.DistanceMatrix[CurrentCity][notVisitedCity], TspSolver_PheromoneAlgImplementation.PheromoneRelevance)
-                        * Math.Pow(_tspSolver.PheromoneMatrix[CurrentCity][notVisitedCity], TspSolver_PheromoneAlgImplementation.DistanceRelevance);
+            //denominator += Math.Pow(1 / _tspSolver.DistanceMatrix[CurrentCity][notVisitedCity], TspSolver_PheromoneAlgImplementation.PheromoneRelevance)* Math.Pow(_tspSolver.PheromoneMatrix[CurrentCity][notVisitedCity], TspSolver_PheromoneAlgImplementation.DistanceRelevance);
          }
 
-         return numerator / denominator;
+         return 0.0;
       }
 
       /// <summary>

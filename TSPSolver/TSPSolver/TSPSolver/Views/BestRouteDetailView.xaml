@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:tspSolver="clr-namespace:TSPSolver;assembly=TSPSolver"
-             x:Class="TSPSolver.Views.BestRouteDetailView">
+             x:Class="TSPSolver.Views.BestRouteDetailView"
+             Title="BEST TOUR DETAILS">
   <ContentPage.Resources>
     <ResourceDictionary>
       <Style x:Key="AddressLayoutStyle" TargetType="StackLayout">
@@ -28,10 +29,19 @@
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="*"/>
     </Grid.ColumnDefinitions>
-    <TimePicker x:Name="StartTimePicker"
-                HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
-                Time="{Binding StartTimeOfRoute, Mode=TwoWay}"
-                PropertyChanged="StartTimePicker_OnPropertyChanged"/>
+
+    <!--TimePicker-->
+    <StackLayout Orientation="Horizontal"
+                 Padding="12">
+      <Label Text="Set start time for route: "
+             FontSize="Large"
+             HorizontalOptions="Start" VerticalOptions="CenterAndExpand"/>
+      <TimePicker x:Name="StartTimePicker"
+                  HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"
+                  Time="{Binding StartTimeOfRoute, Mode=TwoWay}"
+                  PropertyChanged="StartTimePicker_OnPropertyChanged"/>
+    </StackLayout>
+
     <ListView Grid.Row="1" Grid.Column="0"
               x:Name="AddressListView"
               Margin="12"
@@ -40,14 +50,14 @@
       <ListView.ItemTemplate>
         <DataTemplate>
           <ViewCell>
-            <StackLayout Padding="12"
+            <StackLayout Padding="8" Margin="4"
                          BackgroundColor="{x:Static tspSolver:Constants.Blue}"
                          Orientation="Horizontal">
-              <Label Text="{Binding FormattedAddress}"
+              <Label Text="{Binding FormattedAddressWithBreak}"
                      HorizontalOptions="Start" VerticalOptions="CenterAndExpand"
                      TextColor="White"
                      FontSize="Medium"/>
-              <Label Text="{Binding ArrivalTime, StringFormat='Arrival time: {0:hh}:{0:mm} o\'clock.', Mode=TwoWay}"
+              <Label Text="{Binding ArrivalTime, StringFormat='Arrival time:&#x0a;{0:hh}:{0:mm} o\'clock.', Mode=TwoWay}"
                      HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"
                      TextColor="White"
                      FontSize="Medium"/>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using TSPSolver.Model;
 using Xamarin.Forms;
 
@@ -46,5 +47,34 @@ namespace TSPSolver.ViewModels
          get { return _startTimeOfRoute; }
          set { SetProperty(ref _startTimeOfRoute, value); }
       }
+
+      #region Commands
+
+      #region UpdateArrivalTimesCommand
+
+      private Command _updateArrivalTimesCommand { get; set; }
+
+      public ICommand UpdateArrivalTimesCommand
+      {
+         get
+         {
+            return _updateArrivalTimesCommand ??
+                   (_updateArrivalTimesCommand =
+                      new Command(() =>
+                      {
+                         TimeSpan tempTimeSpan = StartTimeOfRoute;
+                         Addresses[0].ArrivalTime = StartTimeOfRoute;
+                         for (int i = 0; i < Addresses.Count - 1; i++)
+                         {
+                            tempTimeSpan += tempTimeSpan.Add(new TimeSpan(0, 0, (int)DurationMatrix[Addresses[i]][Addresses[i + 1]]));
+                            Addresses[i + 1].ArrivalTime = tempTimeSpan;
+                         }
+                      }));
+         }
+      }
+
+      #endregion //UpdateArrivalTimesCommand
+
+      #endregion //Commands
    }
 }

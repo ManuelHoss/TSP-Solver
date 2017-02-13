@@ -1,15 +1,37 @@
 ﻿using System;
+using System.Text;
 
 namespace TSPSolver.Model
 {
    public class Address
    {
       public Guid Id { get; set; } = Guid.NewGuid();
-      public string Street { get; set; }
-      public string Number { get; set; }
-      public string Zip { get; set; }
-      public string City { get; set; }
       public string FormattedAddress { get; set; }
+
+      public string FormattedAddressWithBreak
+      {
+         get
+         {
+            String str = FormattedAddress;
+            String[] substrings = str.Split(',');
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.Append(substrings[0]);
+            stringBuilder.Append(",\n");
+            for (int i = 1; i < substrings.Length; i++)
+            {
+               if (i > 1)
+               {
+                  stringBuilder.Append($", {substrings[i]}");
+               }
+               else
+               {
+                  stringBuilder.Append(substrings[i].Remove(0, 1));
+               }
+            }
+            return stringBuilder.ToString();
+         }
+      }
+
       public bool IsDepotAddress { get; set; } = false;
 
       // Timewindows
@@ -19,7 +41,7 @@ namespace TSPSolver.Model
 
       public override string ToString()
       {
-         return $"{Street} {Number}, {Zip} {City}";
+         return FormattedAddress;
       }
    }
 }

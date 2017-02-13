@@ -25,11 +25,11 @@ namespace TSPSolver.ViewModels
       public MainViewModel(Page page) : base(page)
       {
          // Initialize Mock List
-         _addressList.Add(new Address() {Street = "Kapuzinergasse", Number = "20", Zip = "86150", City = "Augsburg", Id = Guid.NewGuid(), FormattedAddress = "Kapuzinergasse 20, 86150 Augsburg, Deutschland"});
-         _addressList.Add(new Address() {Street = "Universitätsstraße", Number = "6a", Zip = "86159", City = "Augsburg", Id = Guid.NewGuid(), FormattedAddress = "Universitätsstraße 6, 86159 Augsburg, Deutschland"});
-         _addressList.Add(new Address() {Street = "Bürgermeister-Ulrich-Straße", Number = "90", Zip = "86199", City = "Augsburg", Id = Guid.NewGuid(), FormattedAddress = "Bürgermeister-Ulrich-Straße 90, 86199 Augsburg, Deutschland"});
-         _addressList.Add(new Address() {Street = "Aubinger Str.", Number = "162", Zip = "81243", City = "München", Id = Guid.NewGuid(), FormattedAddress = "Aubinger Str. 162, 81243 München, Deutschland"});
-         _addressList.Add(new Address() {Street = "Sommestraße", Number = "40", Zip = "86156", City = "Augsburg", Id = Guid.NewGuid(), FormattedAddress = "Sommestraße 40, 86156 Augsburg, Deutschland"});
+         _addressList.Add(new Address() {Id = Guid.NewGuid(), FormattedAddress = "Kapuzinergasse 20, 86150 Augsburg, Deutschland"});
+         _addressList.Add(new Address() {Id = Guid.NewGuid(), FormattedAddress = "Universitätsstraße 6, 86159 Augsburg, Deutschland"});
+         _addressList.Add(new Address() {Id = Guid.NewGuid(), FormattedAddress = "Bürgermeister-Ulrich-Straße 90, 86199 Augsburg, Deutschland"});
+         _addressList.Add(new Address() {Id = Guid.NewGuid(), FormattedAddress = "Aubinger Str. 162, 81243 München, Deutschland"});
+         _addressList.Add(new Address() {Id = Guid.NewGuid(), FormattedAddress = "Sommestraße 40, 86156 Augsburg, Deutschland"});
       }
 
       #endregion //Constructor
@@ -63,27 +63,41 @@ namespace TSPSolver.ViewModels
          {
             return _addAddressToListCommand ??
                    (_addAddressToListCommand =
-                      new Command(() =>
+                      new Command(async () =>
                       {
                          //Case of editing a existent Entry
                          if (!String.IsNullOrEmpty(_inputAddress))
                          {
-
-                            GoogleMapsApiAddressResult validationResult = GoogleProvider.ValidateAddress(InputAddress).Result;
-
-                            if (validationResult.status == "OK")
+                            IsBusy = true;
+                            try
                             {
-                               Address address = new Address();
-                               address.Street = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("route")).long_name;
-                               address.Number = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("street_number")).long_name;
-                               address.City = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("locality")).long_name;
-                               address.Zip = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("postal_code")).long_name;
-                               address.FormattedAddress = validationResult.results[0].formatted_address;
-                               AddressList.Add(address);
+                               GoogleMapsApiAddressResult validationResult = await GoogleProvider.ValidateAddress(InputAddress);
+
+                               if (validationResult.status == "OK")
+                               {
+                                  Address address = new Address();
+                                  address.FormattedAddress = validationResult.results[0].formatted_address;
+                                  var response = await Page.DisplayAlert("VALIDATION", $"Validate the address to add:\n{address.FormattedAddress}." , "ADD", "CANCEL");
+                                  if (response)
+                                  {
+                                     AddressList.Add(address);
+                                     InputAddress = "";
+                                  }
+                               }
+                               else if(validationResult.status == "ZERO_RESULTS")
+                               {
+                                  IsBusy = false;
+                                  await Page.DisplayAlert("Address not valid!", "Address not found in Google Maps. Please verfy correctness and try again.", "OK");
+                               }
                             }
-                            else
+                            catch (Exception ex)
                             {
-                               Page.DisplayAlert("Address not valid!", "Address not found in Google Maps. Please verfy correctness and try again.", "OK");
+                               IsBusy = false;
+                               await Page.DisplayAlert("ERROR", $"Exception: {ex}", "OK");
+                            }
+                            finally
+                            {
+                               IsBusy = false;
                             }
                          }
                       }));
@@ -102,18 +116,33 @@ namespace TSPSolver.ViewModels
          {
             return _calculateBestRouteCommand ??
                    (_calculateBestRouteCommand =
-                      new Command(() =>
+                      new Command(async () =>
                       {
+                         IsBusy = true;
                          //Case of editing a existent Entry
                          if (AddressList.Count(item => item.IsDepotAddress) < 1)
                          {
-                            Page.DisplayAlert("No depot address chosen!", "Choose a address as your depot address by clicking the transporter icon on one of the address entries!", "OK");
+                            IsBusy = false;
+                            await Page.DisplayAlert("No depot address chosen!", "Choose a address as your depot address by clicking the transporter icon on one of the address entries!", "OK");
                          }
                          else if (AddressList.Count > 1)
                          {
-                            _tspService = new TspService();
-                            Route bestRoute = _tspService.CalculateBestRoute(AddressList.ToList(), AddressList.FirstOrDefault(address => address.IsDepotAddress));
-                            Page.Navigation.PushAsync(new BestRouteOverviewView(bestRoute, _tspService.AntColonyOptimizationLog));
+                            try
+                            {
+                               _tspService = new TspService();
+                               Route bestRoute = await _tspService.CalculateBestRoute(AddressList.ToList(), AddressList.FirstOrDefault(address => address.IsDepotAddress));
+                               IsBusy = false;
+                               await Page.Navigation.PushAsync(new BestRouteOverviewView(bestRoute, _tspService.AntColonyOptimizationLog));
+                            }
+                            catch (Exception)
+                            {
+                               await Page.DisplayAlert("ERROR", "Problems calculating best route", "Ok");
+                            }
+                            finally
+                            {
+                               IsBusy = false;
+                            }
+                            
                          }
                       }));
          }

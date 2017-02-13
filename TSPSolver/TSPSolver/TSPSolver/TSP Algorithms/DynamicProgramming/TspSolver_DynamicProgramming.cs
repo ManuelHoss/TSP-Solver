@@ -16,7 +16,7 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
         private Address depotAddress;
         private Dictionary<Address, Dictionary<Address, double>> durationMatrix;
 
-        public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distanceMatrix, Dictionary<Address, Dictionary<Address, double>> durationMatrix, List<Address> addresses, Address depotAddress)
+        public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> durationMatrix, List<Address> addresses, Address depotAddress)
         {
             length = addresses.Count;
             this.depotAddress = depotAddress;
@@ -108,7 +108,6 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
         private double getDistance(Address firstAddress, Address secondAddress)
         {
             return distanceMatrix[firstAddress][secondAddress];
-
         }
 
 

@@ -34,10 +34,7 @@ namespace TSPSolver.CSV_Import
                   {
                      importAddresses.Add(new Address()
                      {
-                        Street = values[0],
-                        Number = values[1],
-                        Zip = values[2],
-                        City = values[3],
+                        FormattedAddress = $"{values[0]} {values[1]}, {values[2]} {values[3]}"
                      });
                   }
                }
@@ -50,10 +47,6 @@ namespace TSPSolver.CSV_Import
 
             if (validationResult.status == "OK")
             {
-               address.Street = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("route")).long_name;
-               address.Number = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("street_number")).long_name;
-               address.City = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("locality")).long_name;
-               address.Zip = validationResult.results[0].address_components.FirstOrDefault(item => item.types.Contains("postal_code")).long_name;
                address.FormattedAddress = validationResult.results[0].formatted_address;
             }
             else
