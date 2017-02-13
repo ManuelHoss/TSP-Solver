@@ -19,16 +19,14 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
       public AntColonyOptimizationLog Log { get; private set; } = new AntColonyOptimizationLog();
 
       private List<Ant> _ants = new List<Ant>();
-      private Dictionary<Address, Dictionary<Address, double>> _distanceMatrix;
-      private Dictionary<Address, Dictionary<Address, double>> _durationMatrix;
+      private Dictionary<Address, Dictionary<Address, double>> _adjacencyMatrix;
       private Dictionary<Address, Dictionary<Address, double>> _pheromoneMatrix;
       private Route _bestRoute = new Route() { Distance = Double.MaxValue };
       
-      public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> distances, Dictionary<Address, Dictionary<Address, double>> durations, List<Address> addresses, Address depotAddress)
+      public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> adjacencyMatrix, List<Address> addresses, Address depotAddress)
       {
          Log = new AntColonyOptimizationLog();
-         _distanceMatrix = distances;
-         _durationMatrix = durations;
+         _adjacencyMatrix = adjacencyMatrix;
          // Initialize pheromone matrix with 1
          InitializePheromoneMatrix(addresses);
 
@@ -59,10 +57,10 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
          }
       }
 
-      public Dictionary<Address, Dictionary<Address, double>> DistanceMatrix
+      public Dictionary<Address, Dictionary<Address, double>> AdjacencyMatrix
       {
-         get { return _distanceMatrix; }
-         set { _distanceMatrix = value; }
+         get { return _adjacencyMatrix; }
+         set { _adjacencyMatrix = value; }
       }
 
       public Dictionary<Address, Dictionary<Address, double>> PheromoneMatrix

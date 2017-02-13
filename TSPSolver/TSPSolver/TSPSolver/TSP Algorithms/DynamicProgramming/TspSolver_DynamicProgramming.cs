@@ -21,7 +21,6 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
             length = addresses.Count;
             this.depotAddress = depotAddress;
             this.adresses = addresses;
-            this.distanceMatrix = distanceMatrix;
             this.durationMatrix = durationMatrix;
             allDotes = new List<Node>();
             adresses.Remove(depotAddress);
@@ -101,11 +100,6 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
             
         }
 
-
-        //ready
-        /**
-         * 
-         */
         private double getDuration(Address firstAddress, Address secondAddress)
         {
             return durationMatrix[firstAddress][secondAddress];

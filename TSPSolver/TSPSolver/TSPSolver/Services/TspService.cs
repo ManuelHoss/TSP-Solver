@@ -26,7 +26,7 @@ namespace TSPSolver.Services
          TspSolver_PheromoneAlgImplementation aco_tspSolver = new TspSolver_PheromoneAlgImplementation();
 
          // Build route to return
-         Route bestRoute = aco_tspSolver.CalculateShortestRoute(distanceMatrix, durationMatrix, addresses, depotAddress);
+         Route bestRoute = aco_tspSolver.CalculateShortestRoute(distanceMatrix, addresses, depotAddress);
          bestRoute.DistanceMatrix = distanceMatrix;
          bestRoute.DurationMatrix = durationMatrix;
 
