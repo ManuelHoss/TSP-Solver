@@ -19,7 +19,7 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
 
         public Node()
         {
-
+            duration = double.MaxValue;
         }
 
         public Node(Address location, List<Address> notUsedAddresses)
@@ -30,18 +30,24 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
 
 
 
-        public Node(Node current, double duration,int step, Address notUsed, List<Address> adresses)
+        public Node(Node current, double duration,int step, Address notUsed, List<Address> adresses, double distance)
         {
             this.doteBefore = current;
             this.address = notUsed;
             setNotUsedAdresses(adresses);
             this.address = notUsed;       
             this.step = step;
+            this.distance = distance;
         }
         
         private void setNotUsedAdresses(List<Address> adresses)
         {
-            notUsedAddresses = doteBefore.getNotUsedAddresses();
+            notUsedAddresses = new List<Address>();
+            foreach(Address a in doteBefore.getNotUsedAddresses())
+            {
+                notUsedAddresses.Add(a);
+            }
+            //notUsedAddresses = doteBefore.getNotUsedAddresses();
             notUsedAddresses.Remove(address);
         }
 
@@ -51,12 +57,13 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
         }
 
         
-        internal void refreshDatas(Node current,double newDuration)
+        internal void refreshDatas(Node current,double newDuration, double distance)
         {
             if(newDuration < duration)
             {
                 duration = newDuration;
                 doteBefore = current;
+                this.distance = distance;
             }
         }
 
@@ -70,7 +77,7 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
             return distance;
         }
 
-        internal Address currentAddress()
+        internal Address getAddress()
         {
             return address;
         }
@@ -84,6 +91,38 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
         internal bool isAddress(Address notUsed)
         {
             return address.Id == notUsed.Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            // If parameter is null return false.
+            if (obj == null)
+            {
+                return false;
+            }
+
+            // If parameter cannot be cast to Point return false.
+            Node p = obj as Node;
+            if ((System.Object)p == null)
+            {
+                return false;
+            }
+
+            if (p.getAddress().Equals(this.address) && p.step == this.step)
+            {
+                foreach(Address a in p.getNotUsedAddresses())
+                {
+                    if (!notUsedAddresses.Contains(a))
+                    {
+                        return false;
+                    }
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
