@@ -134,7 +134,7 @@ namespace TSPSolver.ViewModels
                                IsBusy = false;
                                await Page.Navigation.PushAsync(new BestRouteOverviewView(bestRoute, _tspService.AntColonyOptimizationLog));
                             }
-                            catch (Exception)
+                            catch (Exception ex)
                             {
                                await Page.DisplayAlert("ERROR", "Problems calculating best route", "Ok");
                             }

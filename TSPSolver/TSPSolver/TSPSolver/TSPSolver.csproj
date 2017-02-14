@@ -57,6 +57,7 @@
     <Compile Include="TSP Algorithms\ACOOptimization\RouletteWheelSelection.cs" />
     <Compile Include="TSP Algorithms\DynamicProgramming\Dote.cs" />
     <Compile Include="TSP Algorithms\DynamicProgramming\TspSolver_DynamicProgramming.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GeneticAlgorithmWrapper.cs" />
     <Compile Include="TSP Algorithms\MockAlgorithm\TspSolver_MockImplementation.cs" />
     <Compile Include="TSP Algorithms\ACOOptimization\TspSolver_PheromoneAlgImplementation.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
@@ -112,6 +113,9 @@
       <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\portable-net40+sl4+win8+wp71+wpa81\System.Net.Http.Primitives.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Windows">
+      <HintPath>..\..\..\..\..\..\..\..\Program Files (x86)\Windows Kits\8.1\References\CommonConfiguration\Neutral\Windows.winmd</HintPath>
+    </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Xamarin.Forms.2.3.3.180\lib\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.Core.dll</HintPath>
       <Private>True</Private>
@@ -148,6 +152,16 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\PortableGeneticAlgorithm\PortableGeneticAlgorithm\PortableGeneticAlgorithm\PortableGeneticAlgorithm.csproj">
+      <Project>{f762723a-5969-46c1-ba10-c375c8f75b79}</Project>
+      <Name>PortableGeneticAlgorithm</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\..\TsmSolutionPortable\PortableTsmSolution\PortableTsmSolution.csproj">
+      <Project>{359547f8-2ff3-4504-90a3-57110a89f94f}</Project>
+      <Name>PortableTsmSolution</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
