@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSPSolver.Windows", "TSPSol
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortableGeneticAlgorithm", "..\..\PortableGeneticAlgorithm\PortableGeneticAlgorithm\PortableGeneticAlgorithm\PortableGeneticAlgorithm.csproj", "{F762723A-5969-46C1-BA10-C375C8F75B79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortableTsmSolution", "..\..\TsmSolutionPortable\PortableTsmSolution\PortableTsmSolution.csproj", "{359547F8-2FF3-4504-90A3-57110A89F94F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortableTsmSolution", "..\..\PortableTsmSolution\PortableTsmSolution\PortableTsmSolution.csproj", "{359547F8-2FF3-4504-90A3-57110A89F94F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

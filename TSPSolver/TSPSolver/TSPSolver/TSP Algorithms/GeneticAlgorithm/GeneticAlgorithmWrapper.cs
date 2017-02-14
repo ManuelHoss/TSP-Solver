@@ -12,6 +12,7 @@ using PortableTsmSolution.Helper;
 using PortableGeneticAlgorithm.Interfaces;
 using PortableTsmSolution.Overriding;
 using PortableGeneticAlgorithm.Predefined;
+using System.Diagnostics;
 
 namespace TSPSolver.TSP_Algorithms.GeneticAlgorithm
 {
@@ -130,13 +131,16 @@ namespace TSPSolver.TSP_Algorithms.GeneticAlgorithm
                 .SetNumberOfCitiesToVisit(CityHelper.GetAllCitiesWithoutStart().Length)
                 .Build();
 
+            var GaStopwatch = Stopwatch.StartNew();
             var geneticAlgorithm = new PortableGeneticAlgorithm.GeneticAlgorithm();
-            PortableGeneticAlgorithm.GeneticAlgorithm.StartInNewThread();
+            PortableGeneticAlgorithm.GeneticAlgorithm.StartInNewTask();
 
             while (geneticAlgorithm.IsStopped() == false)
             {
                 Task.Delay(100);
             }
+
+            GaStopwatch.Stop();
 
             IGenome g = geneticAlgorithm.BestGenome;
             Route r = GenomeToRoute((TsmGenome)g, dataSet);

@@ -158,7 +158,7 @@
       <Project>{f762723a-5969-46c1-ba10-c375c8f75b79}</Project>
       <Name>PortableGeneticAlgorithm</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\..\TsmSolutionPortable\PortableTsmSolution\PortableTsmSolution.csproj">
+    <ProjectReference Include="..\..\..\..\PortableTsmSolution\PortableTsmSolution\PortableTsmSolution.csproj">
       <Project>{359547f8-2ff3-4504-90a3-57110a89f94f}</Project>
       <Name>PortableTsmSolution</Name>
     </ProjectReference>
