@@ -9,10 +9,10 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
 {
     class Node
     {   
-        private Node doteBefore=null;
+        private Node NodeBefore=null;
         private Address address;
         private int step;
-        private double distance; //wird nicht verwendet
+       
         private double duration;
         private List<Address> notUsedAddresses;
         
@@ -30,40 +30,40 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
 
 
 
-        public Node(Node current, double duration,int step, Address notUsed, List<Address> adresses, double distance)
+        public Node(Node current, double duration,int step, Address notUsed, List<Address> adresses)
         {
-            this.doteBefore = current;
+            this.NodeBefore = current;
             this.address = notUsed;
             setNotUsedAdresses(adresses);
             this.address = notUsed;       
             this.step = step;
-            this.distance = distance;
+            
         }
         
         private void setNotUsedAdresses(List<Address> adresses)
         {
             notUsedAddresses = new List<Address>();
-            foreach(Address a in doteBefore.getNotUsedAddresses())
+            foreach(Address a in NodeBefore.getNotUsedAddresses())
             {
                 notUsedAddresses.Add(a);
             }
-            //notUsedAddresses = doteBefore.getNotUsedAddresses();
+            //notUsedAddresses = NodeBefore.getNotUsedAddresses();
             notUsedAddresses.Remove(address);
         }
 
         internal Node getNodeBefore()
         {
-            return doteBefore;
+            return NodeBefore;
         }
 
         
-        internal void refreshDatas(Node current,double newDuration, double distance)
+        internal void refreshDatas(Node current,double newDuration)
         {
             if(newDuration < duration)
             {
                 duration = newDuration;
-                doteBefore = current;
-                this.distance = distance;
+                NodeBefore = current;
+                
             }
         }
 
@@ -72,10 +72,7 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
             return duration;
         }
 
-        internal double getDistance()
-        {
-            return distance;
-        }
+
 
         internal Address getAddress()
         {

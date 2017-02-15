@@ -9,9 +9,9 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
     {
         private int length;
         private List<Address> adresses;
-        private Dictionary<Address, Dictionary<Address, double>> distanceMatrix;
 
-        private List<Node> allDotes;
+
+        private List<Node> allNodes;
         private Node backInDepot;
         private Address depotAddress;
         private Dictionary<Address, Dictionary<Address, double>> durationMatrix;
@@ -22,8 +22,8 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
             this.depotAddress = depotAddress;
             this.adresses = addresses;
             this.durationMatrix = durationMatrix;
-            allDotes = new List<Node>();
-            adresses.Remove(depotAddress);
+            allNodes = new List<Node>();
+            adresses.Remove(depotAddress); //entfernung des depotknoten
             findprecedence();
             builtGraph();
             return findShortesRoute();
@@ -40,8 +40,8 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
             {
                 r.Addresses.Add(n.getAddress());
             }
+            r.Duration = backInDepot.getDuration();
             return r;
-            
         }
 
 
@@ -56,37 +56,37 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
         //sollte fertig sein
         private void builtGraph()
         {
-            List<Node> currentDotes = new List<Node>();
-            currentDotes.Add(new Node(depotAddress, adresses));
+            List<Node> currentNodes = new List<Node>();
+            currentNodes.Add(new Node(depotAddress, adresses));
 
             for (int i = 0; i < length-1; i++)
             {
-                foreach (Node d in currentDotes)
+                foreach (Node d in currentNodes)
                 {
-                    allDotes.Add(d);
+                    allNodes.Add(d);
                 }
 
-                currentDotes = makeNewStep(currentDotes, i); //rückgabe wert passt anscheinde nicht
+                currentNodes = makeNewStep(currentNodes, i); //rückgabe wert passt anscheinde nicht
                 findPossiblePrecedence();
             }
             //zurück zum depot knoten fehlt noch
-            foreach (Node d in currentDotes)
+            foreach (Node d in currentNodes)
             {
-                allDotes.Add(d);
+                allNodes.Add(d);
             }
 
-            lastStepBackToDepot(currentDotes);
+            lastStepBackToDepot(currentNodes);
         }
 
 
         //sollte fertig sein
-        private void lastStepBackToDepot(List<Node> currentDotes)
+        private void lastStepBackToDepot(List<Node> currentNodes)
         {
-            Node depotDote = new Node();
+            Node depotNode = new Node();
             double min = double.MaxValue;
             Node shortestpath=null;
 
-            foreach(Node current in currentDotes)
+            foreach(Node current in currentNodes)
             {
                 if (current.getDuration() + getDuration(current.getAddress(), depotAddress) < min)
                 {
@@ -94,21 +94,16 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
                     shortestpath = current;
                 }
             }
-            depotDote.refreshDatas(shortestpath,min, getDistance(shortestpath.getAddress(), depotAddress));
-            //set doteBackInDepot in the end.
-            backInDepot = depotDote;
-            
+            depotNode.refreshDatas(shortestpath,min );
+            //set NodeBackInDepot in the end.
+            backInDepot = depotNode;
         }
 
         private double getDuration(Address firstAddress, Address secondAddress)
         {
             return durationMatrix[firstAddress][secondAddress];
-            
         }
-        private double getDistance(Address firstAddress, Address secondAddress)
-        {
-            return distanceMatrix[firstAddress][secondAddress];
-        }
+ 
 
 
         //TODO
@@ -119,28 +114,26 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
 
 
         //ready
-        private List<Node> makeNewStep(List<Node> currentDotes, int step)
+        private List<Node> makeNewStep(List<Node> currentNodes, int step)
         {
             List<Node> newStep = new List<Node>();
-            foreach (Node current in currentDotes)
+            foreach (Node current in currentNodes)
             {
                 foreach (Address notUsed in current.getNotUsedAddresses())
                 {
                     if (isPossibleOrder(current.getAddress(), notUsed))
                     {
                         double duration = getDuration(current.getAddress(), notUsed);
-                        Node newNode =new Node(current, duration, step, notUsed, adresses, getDistance(current.getAddress(),notUsed));
-                        Node  doteInChange=null;
-                        if ((doteInChange=findDote(newNode,newStep))==null) {
+                        Node newNode =new Node(current, duration, step, notUsed, adresses);
+                        Node  NodeInChange=null;
+                        if ((NodeInChange=findNode(newNode,newStep))==null) {
                             newStep.Add(newNode);
                         }
                         else
                         {
-                            doteInChange.refreshDatas(current, getDuration(current.getAddress(), doteInChange.getAddress()), getDistance(current.getAddress(), notUsed));
+                            NodeInChange.refreshDatas(current, getDuration(current.getAddress(), NodeInChange.getAddress()));
                         }
-                    }
-                     
-                    
+                    }    
                 }
 
             }
@@ -149,15 +142,12 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
 
 
         //TODO
-        private Node findDote(Node newNode, List<Node> newStep)
+        private Node findNode(Node newNode, List<Node> newStep)
         {
-
             foreach (Node d in newStep)
             {
                 if (d.Equals(newNode))
-                {
-                    
-                    
+                {                   
                     return d;
                 }
             }
