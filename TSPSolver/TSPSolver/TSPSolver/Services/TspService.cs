@@ -33,8 +33,8 @@ namespace TSPSolver.Services
 
             // Build route to return
             Route bestRouteGa = gaTspSolver.CalculateShortestRoute(distanceMatrix, addresses, depotAddress);
-            bestRoute.DistanceMatrix = distanceMatrix;
-            bestRoute.DurationMatrix = durationMatrix;
+            bestRouteGa.DistanceMatrix = distanceMatrix;
+            bestRouteGa.DurationMatrix = durationMatrix;
 
             // Create Log object
             AntColonyOptimizationLog = acoTspSolver.Log;
