@@ -57,6 +57,50 @@
     <Compile Include="TSP Algorithms\ACOOptimization\RouletteWheelSelection.cs" />
     <Compile Include="TSP Algorithms\DynamicProgramming\Dote.cs" />
     <Compile Include="TSP Algorithms\DynamicProgramming\TspSolver_DynamicProgramming.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Analytics\Analytics.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Analytics\Log.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Analytics\Solution.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Generation.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\GeneticAlgorithm.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\GePrModel.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Helper.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Interfaces\IAnalytics.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Interfaces\ICrossover.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Interfaces\IFitness.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Interfaces\IGenerationEvolver.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Interfaces\IGenome.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Interfaces\IMutation.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Interfaces\IPopulation.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Interfaces\ISelection.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Interfaces\ITermination.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Population.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Predefined\ElitistSeletion.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Predefined\FitnessThresholdTermination.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Predefined\FitnessUnchangedTermination.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Predefined\IterationTermination.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Predefined\RouletteWheelSelection.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Predefined\TerminationCombiner.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Predefined\TournamentSelection.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\GeneticAlgorithmLibrary\Termination\TerminationBase.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\DataSets\Att48.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\DataSets\Dantzig42.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\DataSets\Fri26.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Helper\CityHelper.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Helper\Example.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Overriding\GenerationEvolver.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Overriding\TsmCrossover.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Overriding\TsmCrossoverAEX.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Overriding\TsmCrossoverER.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Overriding\TsmCrossoverOrdinal.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Overriding\TsmCrossoverOX.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Overriding\TsmCrossoverPMX.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Overriding\TsmFitness.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Overriding\TsmMutationHillClimbing.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Overriding\TsmMutationScramble.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Overriding\TsmMutationSWAP.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\Overriding\TsmSolution.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\TsmGenome.cs" />
+    <Compile Include="TSP Algorithms\GeneticAlgorithm\GAFiles\TsmSolution\TsmModel.cs" />
     <Compile Include="TSP Algorithms\GeneticAlgorithm\GeneticAlgorithmWrapper.cs" />
     <Compile Include="TSP Algorithms\MockAlgorithm\TspSolver_MockImplementation.cs" />
     <Compile Include="TSP Algorithms\ACOOptimization\TspSolver_PheromoneAlgImplementation.cs" />
@@ -152,16 +196,6 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\PortableGeneticAlgorithm\PortableGeneticAlgorithm\PortableGeneticAlgorithm\PortableGeneticAlgorithm.csproj">
-      <Project>{f762723a-5969-46c1-ba10-c375c8f75b79}</Project>
-      <Name>PortableGeneticAlgorithm</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\PortableTsmSolution\PortableTsmSolution\PortableTsmSolution.csproj">
-      <Project>{359547f8-2ff3-4504-90a3-57110a89f94f}</Project>
-      <Name>PortableTsmSolution</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />
