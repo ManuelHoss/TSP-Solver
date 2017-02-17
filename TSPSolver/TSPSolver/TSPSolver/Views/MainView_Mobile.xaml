@@ -42,6 +42,7 @@
       <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
           <RowDefinition Height="8*" />
       </Grid.RowDefinitions>
       <Grid.ColumnDefinitions>
@@ -60,9 +61,40 @@
                     Style="{StaticResource MenuButtonStyle}"
                     Command="{Binding CalculateBestRouteCommand}" />
         </StackLayout>
+
+    <!--Algorithm selection-->
+    <StackLayout Grid.Row="1"
+                 Orientation="Horizontal"
+                 Spacing="20"
+                 VerticalOptions="Start" HorizontalOptions="CenterAndExpand">
+      <StackLayout VerticalOptions="CenterAndExpand">
+        <Label Text="Ant Colony Optimization"
+               FontSize="Medium"
+               HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
+        <Switch IsToggled="{Binding UseAcoAlgorithm, Mode=TwoWay}"
+                WidthRequest="45"
+                HorizontalOptions="CenterAndExpand"/>
+      </StackLayout>
+      <StackLayout VerticalOptions="CenterAndExpand">
+        <Label Text="Dynamic Programming"
+               FontSize="Medium"
+               HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
+        <Switch IsToggled="{Binding UseDynamicProgrammingAlgorithm, Mode=TwoWay}"
+                WidthRequest="45"
+                HorizontalOptions="CenterAndExpand"/>
+      </StackLayout>
+      <StackLayout VerticalOptions="CenterAndExpand">
+        <Label Text="Genetic Algorithm"
+               FontSize="Medium"
+               HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"/>
+        <Switch IsToggled="{Binding UseGeneticProgrammingAlgorithm, Mode=TwoWay}"
+                WidthRequest="45"
+                HorizontalOptions="CenterAndExpand"/>
+      </StackLayout>
+    </StackLayout>
         
         <!--Address input area-->
-        <StackLayout Grid.Row="1">
+        <StackLayout Grid.Row="2">
             <Entry Placeholder="Street Number, Zip, City"
                    Style="{StaticResource AddressEntyStyle}"
                    Text="{Binding InputAddress, Mode=TwoWay}" />
@@ -73,7 +105,7 @@
         </StackLayout>
 
         <!--Address list-->
-        <ListView Grid.Row="2"
+        <ListView Grid.Row="3"
                   x:Name="AddressListView"
                   HasUnevenRows="True"
                   ItemSelected="AddressListView_OnItemSelected">

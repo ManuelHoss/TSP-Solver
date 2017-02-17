@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 using TSPSolver.Interfaces;
 using TSPSolver.Model;
 
@@ -16,7 +15,7 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
       public const double DistanceRelevance = 0.3;
       public const double EvapourationRate = 0.001;
 
-      public OptimizationAlgorithmLog AlgorithmLog { get; private set; } = new OptimizationAlgorithmLog();
+      public OptimizationAlgorithmLog AlgorithmLog { get; } = new OptimizationAlgorithmLog() {AlgorithmName = "Ant Colony Optimization"};
 
       private List<Ant> _ants = new List<Ant>();
       private Dictionary<Address, Dictionary<Address, double>> _adjacencyMatrix;
@@ -25,7 +24,6 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
       
       public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> adjacencyMatrix, List<Address> addresses, Address depotAddress)
       {
-         AlgorithmLog = new OptimizationAlgorithmLog();
          _adjacencyMatrix = adjacencyMatrix;
          // Initialize pheromone matrix with 1
          InitializePheromoneMatrix(addresses);
@@ -96,6 +94,7 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
          acoStopwatch.Stop();
          AlgorithmLog.EvaluationDuration = acoStopwatch.ElapsedMilliseconds;
          AlgorithmLog.BestRoute = BestRoute;
+         BestRoute.OptimizationAlgorithmLog = AlgorithmLog;
       }
 
       private void UpdatePheromoneMatrix(Route route)
@@ -114,7 +113,6 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
          {
             PheromoneMatrix[route.Addresses[i]][route.Addresses[i + 1]] += 1 / route.Distance;
          }
-         
       }
    }
 }
