@@ -37,9 +37,6 @@ namespace TSPSolver.Views
          if (e.PropertyName == "Time")
          {
             _viewModel.UpdateArrivalTimesCommand.Execute(null);
-            
-            _viewModel.Addresses.Add(new Address() {ArrivalTime = _viewModel.Addresses[_viewModel.Addresses.Count-1].ArrivalTime.Add(
-               new TimeSpan(0,0,0,(int)_viewModel.DurationMatrix[_viewModel.Addresses[_viewModel.Addresses.Count-1]][_viewModel.Addresses.FirstOrDefault(x => x.IsDepotAddress)]))});
          }
       }
    }
