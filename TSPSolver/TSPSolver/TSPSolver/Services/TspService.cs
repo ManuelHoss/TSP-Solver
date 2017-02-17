@@ -39,7 +39,7 @@ namespace TSPSolver.Services
             // Create Log object
             AntColonyOptimizationLog = acoTspSolver.Log;
 
-            return bestRouteGa;
+            return bestRoute;
         }
 
         private AdjacencyMatrix GetDistancesFromGoogleApi(List<Address> addresses)

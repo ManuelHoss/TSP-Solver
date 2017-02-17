@@ -19,7 +19,6 @@ namespace TSPSolver.ViewModels
       public BestRouteDetailViewModel(Page page, Route bestRoute) : base(page)
       {
          Addresses = bestRoute.Addresses.ToList();
-         StartTimeOfRoute = DateTime.Now.TimeOfDay;
          DistanceMatrix = bestRoute.DistanceMatrix;
          DurationMatrix = bestRoute.DurationMatrix;
       }
@@ -62,13 +61,14 @@ namespace TSPSolver.ViewModels
                    (_updateArrivalTimesCommand =
                       new Command(() =>
                       {
-                         TimeSpan tempTimeSpan = StartTimeOfRoute;
+                         DateTime tempTimeSpan = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, StartTimeOfRoute.Hours,StartTimeOfRoute.Minutes,0);
                          Addresses[0].ArrivalTime = StartTimeOfRoute;
                          for (int i = 0; i < Addresses.Count - 1; i++)
                          {
-                            tempTimeSpan += tempTimeSpan.Add(new TimeSpan(0, 0, (int)DurationMatrix[Addresses[i]][Addresses[i + 1]]));
-                            Addresses[i + 1].ArrivalTime = tempTimeSpan;
+                            tempTimeSpan = tempTimeSpan.AddSeconds(DurationMatrix[Addresses[i]][Addresses[i + 1]]);
+                            Addresses[i + 1].ArrivalTime = tempTimeSpan.TimeOfDay;
                          }
+                         OnPropertyChanged("Addresses");
                       }));
          }
       }

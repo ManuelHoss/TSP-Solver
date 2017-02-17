@@ -45,7 +45,6 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
          {
             MoveToNextCity();
          }
-         CurrentRoute.Addresses.Add(StartCity);
 
          // Check if new best route is found
          if (CurrentRoute.Distance < BestRoute.Distance)
