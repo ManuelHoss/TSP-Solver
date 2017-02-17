@@ -16,7 +16,7 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
       public const double DistanceRelevance = 0.3;
       public const double EvapourationRate = 0.001;
 
-      public AntColonyOptimizationLog Log { get; private set; } = new AntColonyOptimizationLog();
+      public OptimizationAlgorithmLog AlgorithmLog { get; private set; } = new OptimizationAlgorithmLog();
 
       private List<Ant> _ants = new List<Ant>();
       private Dictionary<Address, Dictionary<Address, double>> _adjacencyMatrix;
@@ -25,7 +25,7 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
       
       public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> adjacencyMatrix, List<Address> addresses, Address depotAddress)
       {
-         Log = new AntColonyOptimizationLog();
+         AlgorithmLog = new OptimizationAlgorithmLog();
          _adjacencyMatrix = adjacencyMatrix;
          // Initialize pheromone matrix with 1
          InitializePheromoneMatrix(addresses);
@@ -91,11 +91,11 @@ namespace TSPSolver.TSP_Algorithms.ACOOptimization
                Debug.WriteLine($"Best route from ant {ant}: {ant.BestRoute} - with length: {ant.BestRoute.Distance}");
                UpdatePheromoneMatrix(route);
             }
-            Log.Iterations.Add(new Iteration() { BestRoute = BestRoute, EvaluationDuration = iterationStopWatch.ElapsedMilliseconds});
+            AlgorithmLog.Iterations.Add(new Iteration() { BestRoute = BestRoute, EvaluationDuration = iterationStopWatch.ElapsedMilliseconds});
          }
          acoStopwatch.Stop();
-         Log.EvaluationDuration = acoStopwatch.ElapsedMilliseconds;
-         Log.BestRoute = BestRoute;
+         AlgorithmLog.EvaluationDuration = acoStopwatch.ElapsedMilliseconds;
+         AlgorithmLog.BestRoute = BestRoute;
       }
 
       private void UpdatePheromoneMatrix(Route route)

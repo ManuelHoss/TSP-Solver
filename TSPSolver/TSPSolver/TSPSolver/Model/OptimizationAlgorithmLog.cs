@@ -3,8 +3,10 @@ using System.Collections.Generic;
 
 namespace TSPSolver.Model
 {
-   public class AntColonyOptimizationLog
+   public class OptimizationAlgorithmLog
    {
+      public string AlgorithmName { get; set; }
+
       public List<Iteration> Iterations { get; set; } = new List<Iteration>();
 
       public double DistanceOfShortestRoute { get; set; }

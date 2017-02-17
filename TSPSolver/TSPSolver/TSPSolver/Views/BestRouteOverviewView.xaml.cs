@@ -13,15 +13,22 @@ namespace TSPSolver.Views
    public partial class BestRouteOverviewView : ContentPage
    {
       private BestRouteOverviewViewModel _viewModel;
-      public BestRouteOverviewView(Route bestRoute, AntColonyOptimizationLog acoLog)
+      public BestRouteOverviewView(List<Route> bestRoutes)
       {
          InitializeComponent();
-         BindingContext = _viewModel = new BestRouteOverviewViewModel(this, bestRoute);
-         CreateMap(bestRoute);
+         BindingContext = _viewModel = new BestRouteOverviewViewModel(this, bestRoutes);
+         
+         CreateMap(_viewModel.BestRoute);
 
-         if (acoLog != null)
+         if (bestRoutes != null)
          {
-            CreateAcoLogStackLayout(acoLog);
+            foreach (var bestRoute in bestRoutes)
+            {
+               if (bestRoute.OptimizationAlgorithmLog != null)
+               {
+                  CreateAcoLogStackLayout(bestRoute.OptimizationAlgorithmLog);
+               }
+            }
          }
       }
       
@@ -52,42 +59,42 @@ namespace TSPSolver.Views
          MapsWebView.Source = html;
       }
 
-      private void CreateAcoLogStackLayout(AntColonyOptimizationLog acoLog)
+      private void CreateAcoLogStackLayout(OptimizationAlgorithmLog algorithmLog)
       {
-         StackLayout acoLogLayout = new StackLayout();
-         acoLogLayout.BackgroundColor = Constants.DarkOrange;
-         acoLogLayout.HorizontalOptions = LayoutOptions.StartAndExpand;
-         acoLogLayout.VerticalOptions = LayoutOptions.FillAndExpand;
-         acoLogLayout.Margin = new Thickness(0, 12);
-         acoLogLayout.Padding = new Thickness(12);
-         acoLogLayout.Children.Add(new Label()
+         StackLayout algorithmLogLayout = new StackLayout();
+         algorithmLogLayout.BackgroundColor = Constants.DarkOrange;
+         algorithmLogLayout.HorizontalOptions = LayoutOptions.StartAndExpand;
+         algorithmLogLayout.VerticalOptions = LayoutOptions.FillAndExpand;
+         algorithmLogLayout.Margin = new Thickness(0, 12);
+         algorithmLogLayout.Padding = new Thickness(12);
+         algorithmLogLayout.Children.Add(new Label()
          {
-            Text = $"ANT-COLONY-OPTIMIZATION",
+            Text = $"{algorithmLog.AlgorithmName}",
             Font = Font.SystemFontOfSize(NamedSize.Large),
             HorizontalOptions = LayoutOptions.CenterAndExpand,
             FontAttributes = FontAttributes.Bold,
             TextColor = Color.White
          });
-         acoLogLayout.Children.Add(new Label()
+         algorithmLogLayout.Children.Add(new Label()
          {
-            Text = $"Time spent to find Solution: \t{acoLog.EvaluationDuration} milliseconds",
+            Text = $"Time spent to find Solution: \t{algorithmLog.EvaluationDuration} milliseconds",
             TextColor = Color.White
          });
-         acoLogLayout.Children.Add(new Label()
+         algorithmLogLayout.Children.Add(new Label()
          {
-            Text = $"Number of iterations: \t\t{acoLog.Iterations.Count}",
+            Text = $"Number of iterations: \t\t{algorithmLog.Iterations.Count}",
             TextColor = Color.White
          });
-         acoLogLayout.Children.Add(new Label()
+         algorithmLogLayout.Children.Add(new Label()
          {
-            Text = $"Shortest route distance: \t{acoLog.BestRoute.Distance} meters",
+            Text = $"Shortest route distance: \t{algorithmLog.BestRoute.Distance} meters",
             VerticalOptions = LayoutOptions.EndAndExpand,
             Font = Font.SystemFontOfSize(NamedSize.Small),
             FontAttributes = FontAttributes.Bold,
             TextColor = Color.White
          });
 
-         OptimizationLogStackLayout.Children.Add(acoLogLayout);
+         OptimizationLogStackLayout.Children.Add(algorithmLogLayout);
       }
    }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using TSPSolver.Model;
@@ -11,13 +12,15 @@ namespace TSPSolver.ViewModels
    {
       private double _distance;
       private List<Address> _orderedAddresses = new List<Address>();
+      private List<Route> _bestRoutes;
       private Route _bestRoute;
 
-      public BestRouteOverviewViewModel(Page page, Route bestRoute) : base(page)
+      public BestRouteOverviewViewModel(Page page, List<Route> bestRoutes) : base(page)
       {
-         _bestRoute = bestRoute;
-         _orderedAddresses = bestRoute.Addresses;
-         _distance = bestRoute.Distance;
+         _bestRoutes = bestRoutes;
+         _bestRoute = bestRoutes.FirstOrDefault(route => route.Distance == bestRoutes.Max(r => r.Distance));
+         _orderedAddresses = _bestRoute.Addresses;
+         _distance = _bestRoute.Distance;
       }
 
       public List<Address> OrderedAddresses
@@ -33,6 +36,13 @@ namespace TSPSolver.ViewModels
          get { return _distance; }
          set { SetProperty(ref _distance, value); }
       }
+
+      public Route BestRoute
+      {
+         get { return _bestRoute; }
+         set { _bestRoute = value; }
+      }
+
 
       public string CreateRouteString(List<Address> addresses)
       {

@@ -9,6 +9,7 @@ namespace TSPSolver.Model
       private double _duration = 0;
       private Dictionary<Address, Dictionary<Address, double>> _distanceMatrix;
       private Dictionary<Address, Dictionary<Address, double>> _durationMatrix;
+      private OptimizationAlgorithmLog _optimizationAlgorithmLog;
 
       public List<Address> Addresses
       {
@@ -38,6 +39,12 @@ namespace TSPSolver.Model
       {
          get { return _durationMatrix; }
          set { _durationMatrix = value; }
+      }
+
+      public OptimizationAlgorithmLog OptimizationAlgorithmLog
+      {
+         get { return _optimizationAlgorithmLog; }
+         set { _optimizationAlgorithmLog = value; }
       }
    }
 }

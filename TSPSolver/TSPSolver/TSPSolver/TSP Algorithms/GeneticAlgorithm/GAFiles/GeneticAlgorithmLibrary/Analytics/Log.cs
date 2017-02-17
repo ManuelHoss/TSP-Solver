@@ -130,9 +130,9 @@ namespace PortableGeneticAlgorithm.Analytics
 
         /// <summary>
         ///     Writes into the analytics file a new line, starting with an timestamp,
-        ///     InfoType (please refer to Log.InfoType for reassembling later!) and a string.
+        ///     InfoType (please refer to AlgorithmLog.InfoType for reassembling later!) and a string.
         /// </summary>
-        /// <param name="name">InfoType from Log.InfoTyp</param>
+        /// <param name="name">InfoType from AlgorithmLog.InfoTyp</param>
         /// <param name="value">Information to append the analytics-file.</param>
         public static void A(Solution s)
         {

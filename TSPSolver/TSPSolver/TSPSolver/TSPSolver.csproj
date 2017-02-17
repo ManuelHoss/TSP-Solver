@@ -43,7 +43,8 @@
     <Compile Include="Interfaces\ITspSolver.cs" />
     <Compile Include="Model\Address.cs" />
     <Compile Include="Model\AdjacencyMatrix.cs" />
-    <Compile Include="Model\AntColonyOptimizationLog.cs" />
+    <Compile Include="Model\AlgorithmType.cs" />
+    <Compile Include="Model\OptimizationAlgorithmLog.cs" />
     <Compile Include="Model\Distance.cs" />
     <Compile Include="Model\Duration.cs" />
     <Compile Include="Model\Element.cs" />

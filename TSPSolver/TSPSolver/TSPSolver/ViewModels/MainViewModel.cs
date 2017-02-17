@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -19,11 +20,18 @@ namespace TSPSolver.ViewModels
       private string _inputAddress;
 
       private TspService _tspService;
+      private bool _useAcoAlgorithm;
+      private bool _useDynamicProgrammingAlgorithm;
+      private bool _useGeneticProgrammingAlgorithm;
 
       #region Constructor
 
       public MainViewModel(Page page) : base(page)
       {
+         _useAcoAlgorithm = true;
+         _useDynamicProgrammingAlgorithm = true;
+         _useGeneticProgrammingAlgorithm = true;
+
          // Initialize Mock List
          _addressList.Add(new Address() {Id = Guid.NewGuid(), FormattedAddress = "Kapuzinergasse 20, 86150 Augsburg, Deutschland"});
          _addressList.Add(new Address() {Id = Guid.NewGuid(), FormattedAddress = "Universitätsstraße 6, 86159 Augsburg, Deutschland"});
@@ -47,7 +55,25 @@ namespace TSPSolver.ViewModels
          get { return _addressList; }
          set { SetProperty(ref _addressList, value); }
       }
-      
+
+      public bool UseAcoAlgorithm
+      {
+         get { return _useAcoAlgorithm; }
+         set { SetProperty(ref _useAcoAlgorithm, value); }
+      }
+
+      public bool UseDynamicProgrammingAlgorithm
+      {
+         get { return _useDynamicProgrammingAlgorithm; }
+         set { SetProperty(ref _useDynamicProgrammingAlgorithm, value); }
+      }
+
+      public bool UseGeneticProgrammingAlgorithm
+      {
+         get { return _useGeneticProgrammingAlgorithm; }
+         set { SetProperty(ref _useGeneticProgrammingAlgorithm, value); }
+      }
+
       #endregion //Properties
 
       #region Commands
@@ -130,9 +156,13 @@ namespace TSPSolver.ViewModels
                             try
                             {
                                _tspService = new TspService();
-                               Route bestRoute = await _tspService.CalculateBestRoute(AddressList.ToList(), AddressList.FirstOrDefault(address => address.IsDepotAddress));
+                               List<AlgorithmType> algorithmTypes = new List<AlgorithmType>();
+                               if(UseAcoAlgorithm) { algorithmTypes.Add(AlgorithmType.AntColonyOptimization);}
+                               if(UseDynamicProgrammingAlgorithm) { algorithmTypes.Add(AlgorithmType.DynamicProgramming);}
+                               if(UseGeneticProgrammingAlgorithm) { algorithmTypes.Add(AlgorithmType.GeneticAlgorithm);}
+                               List<Route> bestRoutes = await _tspService.CalculateBestRoute(AddressList.ToList(), AddressList.FirstOrDefault(address => address.IsDepotAddress), algorithmTypes);
                                IsBusy = false;
-                               await Page.Navigation.PushAsync(new BestRouteOverviewView(bestRoute, _tspService.AntColonyOptimizationLog));
+                               await Page.Navigation.PushAsync(new BestRouteOverviewView(bestRoutes));
                             }
                             catch (Exception ex)
                             {
