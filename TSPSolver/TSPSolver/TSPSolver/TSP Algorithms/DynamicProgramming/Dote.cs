@@ -50,6 +50,10 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
             //notUsedAddresses = NodeBefore.getNotUsedAddresses();
             notUsedAddresses.Remove(address);
         }
+        public void removeNotUsedAdress(Address toRemove)
+        {
+            notUsedAddresses.Remove(toRemove);
+        }
 
         internal Node getNodeBefore()
         {
