@@ -5,16 +5,33 @@ using TSPSolver.Model;
 
 namespace TSPSolver.TSP_Algorithms.DynamicProgramming
 {
+    class Tsp_Solver_BeanchSearch : ITspSolver
+    {
+        int beanRange;
+
+        public void setBeanRange(int range)
+        {
+            this.beanRange = range;
+        }
+
+        public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> adjacencyMatrix, List<Address> addresses, Address depotAddress)
+        {
+            TspSolver_DynamicProgramming solver = new TspSolver_DynamicProgramming();
+            solver.useBeanSearch(beanRange);
+            return solver.CalculateShortestRoute(adjacencyMatrix, addresses, depotAddress);
+        }
+
+    }
+
     class TspSolver_DynamicProgramming : ITspSolver
     {
         private int length;
         private List<Address> adresses;
-
-
-        private List<Node> allNodes;
         private Node backInDepot;
         private Address depotAddress;
         private Dictionary<Address, Dictionary<Address, double>> durationMatrix;
+        private bool beanSearchIsTrue =false;
+        private int beanRange;
 
         public Route CalculateShortestRoute(Dictionary<Address, Dictionary<Address, double>> durationMatrix, List<Address> addresses, Address depotAddress)
         {
@@ -22,18 +39,17 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
             this.depotAddress = depotAddress;
             this.adresses = addresses;
             this.durationMatrix = durationMatrix;
-            allNodes = new List<Node>();
-            adresses.Remove(depotAddress); //entfernung des depotknoten
+            adresses.Remove(depotAddress); 
             findprecedence();
             builtGraph();
             return findShortesRoute();
-            //return null;
+            
         }
 
         private Route findShortesRoute()
         {
             Route r =new Route();
-            double duration = 0;
+            
             Node n = backInDepot;
             r.Addresses.Add(n.getAddress());
             while ((n=n.getNodeBefore()) != null)
@@ -44,8 +60,13 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
             return r;
         }
 
+        public void useBeanSearch(int range)
+        {
+            this.beanRange = range;
+            this.beanSearchIsTrue = true;
+        }
 
-        //TODO
+        //TODO here are the prototype for timewindows
         private void findprecedence()
         {
             return;
@@ -53,7 +74,7 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
         }
 
 
-        //sollte fertig sein
+        
         private void builtGraph()
         {
             List<Node> currentNodes = new List<Node>();
@@ -61,25 +82,50 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
 
             for (int i = 0; i < length-1; i++)
             {
-                foreach (Node d in currentNodes)
+                currentNodes = makeNewStep(currentNodes, i); 
+                currentNodes = findPossiblePrecedence(currentNodes);
+                if (beanSearchIsTrue)
                 {
-                    allNodes.Add(d);
+                    currentNodes = useBeanSearch(currentNodes);
+
                 }
-
-                currentNodes = makeNewStep(currentNodes, i); //rückgabe wert passt anscheinde nicht
-                findPossiblePrecedence();
             }
-            //zurück zum depot knoten fehlt noch
-            foreach (Node d in currentNodes)
-            {
-                allNodes.Add(d);
-            }
-
             lastStepBackToDepot(currentNodes);
         }
 
+        //this is only possible if you use the Beansearch
+        private List<Node> useBeanSearch(List<Node> currentNodes)
+        {
+            List<Node> tmp = new List<Node>();
+            currentNodes.Sort((x, y) => x.getDuration().CompareTo(y.getDuration()));
+            for(int i = 0; i < beanRange; i++)
+            {
+                tmp.Add(currentNodes[i]);
+            }
+            return tmp;
+        }
 
-        //sollte fertig sein
+        private List<Node> findPossiblePrecedence(List<Node> currentNodes)
+        {
+            List<Node> tmp = new List<Node>();
+            foreach(Node temp in currentNodes)
+            {
+                tmp.Add(temp);
+            }
+            foreach(Node current in currentNodes)
+            {
+                
+                foreach (Address t in current.getNotUsedAddresses()) {
+                    if (!isPossibleOrder(current.getAddress(), t)){
+                        tmp.Remove(current);
+                        break;
+                    }
+                }
+            }
+            return tmp;
+            
+        }
+
         private void lastStepBackToDepot(List<Node> currentNodes)
         {
             Node depotNode = new Node();
@@ -95,7 +141,7 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
                 }
             }
             depotNode.refreshDatas(shortestpath,min );
-            //set NodeBackInDepot in the end.
+            
             backInDepot = depotNode;
         }
 
@@ -103,17 +149,9 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
         {
             return durationMatrix[firstAddress][secondAddress];
         }
- 
 
 
-        //TODO
-        private void findPossiblePrecedence()
-        {
-            
-        }
-
-
-        //ready
+        
         private List<Node> makeNewStep(List<Node> currentNodes, int step)
         {
             List<Node> newStep = new List<Node>();
@@ -141,7 +179,7 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
         }
 
 
-        //TODO
+        
         private Node findNode(Node newNode, List<Node> newStep)
         {
             foreach (Node d in newStep)
@@ -155,10 +193,10 @@ namespace TSPSolver.TSP_Algorithms.DynamicProgramming
         }
 
 
-        //TODO
+        //TODO here are the protoype for timewindows
         private bool isPossibleOrder(Address current, Address notUsed)
         {
-            return true;
+            return false;
         }
     }
 
