@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using TSPSolver.CSV_Import;
 using TSPSolver.Model;
 using TSPSolver.Services;
 using TSPSolver.Views;
@@ -179,6 +180,34 @@ namespace TSPSolver.ViewModels
       }
 
       #endregion //CalculateBestRouteCommand
+
+      #region ImportCsvCommand
+
+      private Command _importCsvCommand { get; set; }
+
+      public ICommand ImportCsvCommand
+      {
+         get
+         {
+            return _importCsvCommand ??
+                   (_importCsvCommand =
+                      new Command(async () =>
+                      {
+                         List<Address> inputListView = new List<Address>(await CsvHelper.ReadCsv());
+
+                         if (inputListView.Any())
+                         {
+                            AddressList = new ObservableCollection<Address>(inputListView);
+                         }
+                         else
+                         {
+                            await Page.DisplayAlert("Import Error", "A problem occured while importing the selected CSV-file. Make sure the file is valid and try agail.", "OK");
+                         }
+                      }));
+         }
+      }
+
+      #endregion //ImportCsvCommand
 
       #endregion //Commands
    }
